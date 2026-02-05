@@ -1,0 +1,14 @@
+[project]
+name = "lux_planner"
+version = "0.1.0"
+description = "Lux Planner - modular life management app"
+requires-python = ">=3.10"
+dependencies = [
+  "PySide6>=6.5"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
