@@ -1,5 +1,6 @@
 ﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$env:GIT_TERMINAL_PROMPT = "0"
 
 function Run-Git {
     param(
