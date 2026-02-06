@@ -15,9 +15,16 @@ function Run-Git {
     $cmdLine = "git " + ($Args -join " ")
     Write-Host ("`n>> " + $cmdLine)
 
-    # Capture stdout+stderr so failures are visible.
+    # Git sometimes writes normal info/progress to stderr.
+    # PowerShell can treat stderr as an error record, which would stop the script.
+    # We temporarily suppress non-terminating errors and rely ONLY on exit code.
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+
     $output = & git @Args 2>&1
     $exit = $LASTEXITCODE
+
+    $ErrorActionPreference = $prevEap
 
     if ($output) {
         $output | ForEach-Object { Write-Host $_ }
@@ -27,6 +34,7 @@ function Run-Git {
         throw ("Git command failed (exit $exit): " + $cmdLine)
     }
 }
+
 
 function Assert-InRepo {
     & git rev-parse --is-inside-work-tree *> $null
