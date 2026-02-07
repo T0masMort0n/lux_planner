@@ -67,6 +67,22 @@ Core supports both System and Features without introducing UI behavior.
 - assets/themes/*.qss
 - assets/font_schemes/*.json  # typography schemes (token → font-family stacks)
 
+### Scheduler System Spine (System Interaction Surface)
+
+Scheduler is classified as a system-level orchestration surface.
+
+System layer responsibilities:
+- Scheduling data service
+- Provider registry
+- Cross-feature scheduling contracts
+
+Features:
+- Must use system scheduler service
+- Must not implement scheduling write paths
+- Must not import other features for scheduling
+
+This ensures scheduling remains platform infrastructure rather than feature coupling.
+
 ### Core Layer
 - src/lux/core/*
 - src/lux/data/db.py
@@ -195,3 +211,4 @@ System layer ensures:
 - Scalable expansion
 - Low cognitive load
 - Long-term maintainability
+

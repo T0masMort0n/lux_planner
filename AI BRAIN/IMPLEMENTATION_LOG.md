@@ -94,3 +94,39 @@ Result:
 Typography is now system-driven, scheme-switchable, and visually hierarchical across all themes with no regressions.
 
 Signed: Visual Designer Agent 🎨
+
+## 2026-02-07 — Scheduler DI Consistency & System Spine Hardening
+
+**User Problem / Goal:**  
+Resolve repeated system review rejections related to inconsistent Scheduler dependency injection and DB lifecycle ownership.
+
+**What Changed (high level):**
+- Removed `scheduler_registry` from `SystemServices` so only `scheduler_service` is exported to UI/module layers.
+- Consolidated registry access through `services.scheduler_service.registry`.
+- Eliminated all internal DB initialization logic from `SchedulerService`:
+  - No `ensure_db_ready()` calls.
+  - No repository construction inside service.
+  - Repo and registry are required constructor dependencies.
+- Reconfirmed bootstrap as the sole composition root for DB and system service construction.
+
+**System Architectural Significance:**
+This change establishes the **Scheduler System Spine**:
+- Scheduler is now a **System Interaction Surface**, not a feature-owned mechanic.
+- All future cross-feature scheduling will route through this system surface.
+- DB lifecycle is fully centralized and predictable.
+- A single registry instance exists by construction.
+
+**Rules / Constraints Observed:**
+- UI layer continues to avoid `lux.data.*` imports.
+- No feature-to-feature imports introduced.
+- No singletons or service locators added.
+- No AppShell/layout/navigation changes made.
+
+**Follow-ups / TODOs:**
+- Systems Designer acceptance review of DI consistency. ✔
+- Next phase: higher-level scheduling capabilities built on this system spine.
+
+**Signed:**  
+Coder Agent (Implementation)  
+Systems Designer Agent (Architecture Acceptance)
+

@@ -5,14 +5,14 @@ from typing import Callable
 
 from PySide6.QtWidgets import QWidget
 
+from lux.app.services import SystemServices
 
 @dataclass(frozen=True)
 class AppModuleSpec:
     key: str                 # "journal"
     title: str               # "Lux Journal"
-    make_left_panel: Callable[[], QWidget]
-    make_right_view: Callable[[], QWidget]
-
+    make_left_panel: Callable[[SystemServices], QWidget]
+    make_right_view: Callable[[SystemServices], QWidget]
 
 def build_default_registry() -> list[AppModuleSpec]:
     # Import here to avoid import cycles at startup.
@@ -45,37 +45,37 @@ def build_default_registry() -> list[AppModuleSpec]:
         AppModuleSpec(
             key="journal",
             title="Lux Journal",
-            make_left_panel=lambda: JournalLeftPanel(),
-            make_right_view=lambda: JournalRightView(),
+            make_left_panel=lambda services: JournalLeftPanel(),
+            make_right_view=lambda services: JournalRightView(),
         ),
         AppModuleSpec(
             key="scheduler",
             title="Lux Scheduler",
-            make_left_panel=lambda: SchedulerLeftPanel(),
-            make_right_view=lambda: SchedulerDayView(),
+            make_left_panel=lambda services: SchedulerLeftPanel(services.scheduler_service),
+            make_right_view=lambda services: SchedulerDayView(services.scheduler_service),
         ),
         AppModuleSpec(
             key="meals",
             title="Lux Meals",
-            make_left_panel=lambda: MealsLeftPanel(),
-            make_right_view=lambda: MealsRightView(),
+            make_left_panel=lambda services: MealsLeftPanel(),
+            make_right_view=lambda services: MealsRightView(),
         ),
         AppModuleSpec(
             key="exercise",
             title="Lux Exercise",
-            make_left_panel=lambda: ExerciseLeftPanel(),
-            make_right_view=lambda: ExerciseRightView(),
+            make_left_panel=lambda services: ExerciseLeftPanel(),
+            make_right_view=lambda services: ExerciseRightView(),
         ),
         AppModuleSpec(
             key="goals",
             title="Lux Goals",
-            make_left_panel=lambda: GoalsLeftPanel(),
-            make_right_view=lambda: GoalsRightView(),
+            make_left_panel=lambda services: GoalsLeftPanel(),
+            make_right_view=lambda services: GoalsRightView(),
         ),
         AppModuleSpec(
             key="todo",
             title="Lux To Do",
-            make_left_panel=lambda: TodoLeftPanel(),
-            make_right_view=lambda: TodoRightView(),
+            make_left_panel=lambda services: TodoLeftPanel(),
+            make_right_view=lambda services: TodoRightView(),
         ),
     ]

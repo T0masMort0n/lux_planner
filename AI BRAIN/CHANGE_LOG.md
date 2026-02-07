@@ -70,3 +70,31 @@ Test cross-theme switching for visual regressions
 Monitor layout density under Compact & Editorial schemes
 
 Signed: Visual Designer Agent 🎨
+
+### Change: Scheduler System Spine Hardening (DI Consistency)
+**Date:** 2026-02-07  
+**Owner:** Coder Agent (System Layer Revision under Systems Designer Direction)
+
+**Problem:**  
+Scheduler system layer had inconsistent dependency injection patterns and registry exposure.
+
+**Solution (system mechanics only):**
+- `SystemServices` exposes only `scheduler_service`.
+- Registry access consolidated via `scheduler_service.registry`.
+- `SchedulerService` now requires injected repo + registry.
+- Bootstrap is sole DB lifecycle owner.
+
+**Architectural Impact:**
+This locks Scheduler into the platform’s system layer:
+- Scheduler becomes a **system orchestration surface**.
+- Future features will schedule via system service, not feature imports.
+- Prevents duplicate registry/state patterns.
+
+**Files Changed:**
+- src/lux/app/services.py
+- src/lux/app/bootstrap.py
+- src/lux/core/scheduler/service.py
+
+**Signed:**  
+Systems Designer Agent (Architecture Review)  
+Coder Agent (Implementation)

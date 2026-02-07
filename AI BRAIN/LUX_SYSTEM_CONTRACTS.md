@@ -159,3 +159,28 @@ Bottom: Explore Info Surface
 
 ## GOVERNANCE
 These contracts override feature decisions. Systems Designer approval required for changes.
+
+## SCHEDULER INTERACTION SURFACE (SYSTEM-OWNED)
+
+Scheduling is a **system interaction framework**, not a feature mechanic.
+
+### Ownership
+- System layer owns scheduling orchestration.
+- Features may request scheduling through system services.
+- Features must not implement their own scheduling write paths.
+
+### Integration Pattern
+- Access via: `services.scheduler_service`
+- Registry accessed via: `scheduler_service.registry`
+- No feature-to-feature imports allowed for scheduling.
+
+### Architectural Role
+Scheduler acts as a cross-feature coordination surface enabling:
+- Task scheduling
+- Plan scheduling
+- Future domain integrations
+
+This surface must remain:
+- Feature-agnostic
+- DB-lifecycle neutral (bootstrap-owned)
+- Single-registry consistent

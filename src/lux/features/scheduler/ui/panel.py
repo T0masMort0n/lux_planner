@@ -11,6 +11,8 @@ from PySide6.QtWidgets import (
     QFrame,
 )
 
+from lux.core.scheduler.service import SchedulerService
+from lux.features.scheduler.ui.controller import SchedulerController
 from lux.ui.qt.widgets.buttons import LuxButton
 from lux.ui.qt.widgets.cards import Card
 
@@ -21,8 +23,11 @@ class SchedulerLeftPanel(QWidget):
     It does NOT control right-side switching (AppModuleSpec creates them separately).
     """
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, scheduler_service, parent=None) -> None:
         super().__init__(parent)
+
+        # Injected system service; UI never creates DB-backed services.
+        self._ctl = SchedulerController(scheduler_service)
 
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
@@ -42,13 +47,14 @@ class SchedulerLeftPanel(QWidget):
         cal_title.setObjectName("MetaCaption")
         cal_lay.addWidget(cal_title)
 
-        cal = QCalendarWidget()
-        cal.setSelectedDate(QDate.currentDate())
-        cal_lay.addWidget(cal)
+        self._cal = QCalendarWidget()
+        self._cal.setSelectedDate(QDate.currentDate())
+        self._cal.selectionChanged.connect(self._refresh_agenda)  # type: ignore[arg-type]
+        cal_lay.addWidget(self._cal)
 
         root.addWidget(cal_card, 0)
 
-        # Quick actions
+        # Quick actions (placeholders only in Phase 0)
         actions = Card()
         a = QVBoxLayout(actions)
         a.setContentsMargins(10, 10, 10, 10)
@@ -60,10 +66,12 @@ class SchedulerLeftPanel(QWidget):
 
         today_btn = LuxButton("Today")
         today_btn.setMinimumHeight(38)
+        today_btn.clicked.connect(lambda: self._cal.setSelectedDate(QDate.currentDate()))  # type: ignore[arg-type]
         row.addWidget(today_btn, 1)
 
         new_btn = LuxButton("New Event")
         new_btn.setMinimumHeight(38)
+        new_btn.setEnabled(False)  # Phase 0: no create UI
         row.addWidget(new_btn, 1)
 
         a.addLayout(row)
@@ -71,11 +79,12 @@ class SchedulerLeftPanel(QWidget):
         for name in ["Day", "Week", "Month", "Task Assignment"]:
             b = LuxButton(name)
             b.setMinimumHeight(38)
+            b.setEnabled(False)
             a.addWidget(b)
 
         root.addWidget(actions, 0)
 
-        # Agenda preview (placeholder list)
+        # Agenda preview (reads from SchedulerService via controller)
         agenda = Card()
         ag = QVBoxLayout(agenda)
         ag.setContentsMargins(10, 10, 10, 10)
@@ -89,19 +98,49 @@ class SchedulerLeftPanel(QWidget):
         scroll.setWidgetResizable(True)
         scroll.setFrameShape(QFrame.NoFrame)
 
-        host = QWidget()
-        hl = QVBoxLayout(host)
-        hl.setContentsMargins(0, 0, 0, 0)
-        hl.setSpacing(10)
+        self._agenda_host = QWidget()
+        self._agenda_lay = QVBoxLayout(self._agenda_host)
+        self._agenda_lay.setContentsMargins(0, 0, 0, 0)
+        self._agenda_lay.setSpacing(10)
 
-        for txt in ["Standup · 10:00 AM", "Lunch · 1:00 PM", "Project Block · 3:00 PM"]:
-            lbl = QLabel(txt)
-            lbl.setWordWrap(True)
-            hl.addWidget(lbl)
-
-        hl.addStretch(1)
-
-        scroll.setWidget(host)
+        scroll.setWidget(self._agenda_host)
         ag.addWidget(scroll, 1)
 
         root.addWidget(agenda, 1)
+
+        self._refresh_agenda()
+
+    def _refresh_agenda(self) -> None:
+        while self._agenda_lay.count():
+            item = self._agenda_lay.takeAt(0)
+            w = item.widget()
+            if w is not None:
+                w.deleteLater()
+
+        try:
+            rows = self._ctl.list_entries_for_date(self._cal.selectedDate())
+        except Exception as e:
+            err = QLabel(
+                "Scheduler failed to load agenda.\n\n"
+                f"{type(e).__name__}: {e}"
+            )
+            err.setObjectName("MetaCaption")
+            err.setWordWrap(True)
+            self._agenda_lay.addWidget(err)
+            self._agenda_lay.addStretch(1)
+            return
+
+        if not rows:
+            lbl = QLabel("Nothing scheduled for this day.")
+            lbl.setObjectName("MetaCaption")
+            lbl.setWordWrap(True)
+            self._agenda_lay.addWidget(lbl)
+            self._agenda_lay.addStretch(1)
+            return
+
+        for txt in rows[:12]:
+            lbl = QLabel(txt)
+            lbl.setWordWrap(True)
+            self._agenda_lay.addWidget(lbl)
+
+        self._agenda_lay.addStretch(1)

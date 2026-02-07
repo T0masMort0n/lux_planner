@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
 )
 
 from lux.app.navigation import AppModuleSpec
+from lux.app.services import SystemServices
 from lux.core.settings.store import SettingsStore
 from lux.core.settings.schema import THEMES_AVAILABLE
 from lux.ui.qt.app_shell import AppShell
@@ -21,10 +22,18 @@ from lux.ui.qt.widgets.buttons import LuxButton
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, settings: SettingsStore, registry: list[AppModuleSpec], app, parent=None) -> None:
+    def __init__(
+        self,
+        settings: SettingsStore,
+        registry: list[AppModuleSpec],
+        services: SystemServices,
+        app,
+        parent=None,
+    ) -> None:
         super().__init__(parent)
         self._settings = settings
         self._registry = registry
+        self._services = services
         self._app = app
 
         self._settings_right: SettingsRightView | None = None
@@ -186,9 +195,23 @@ class MainWindow(QMainWindow):
         self._active_key = key
         self.title_btn.setText(spec.title)
 
-        # Replace left feature panel (safe clear: widgets + spacers)
+        # Replace left/right surfaces. Fail-soft: if a module view throws,
+        # show an on-screen error instead of silently failing to switch.
         self._clear_left_surface()
-        self._feature_left_lay.addWidget(spec.make_left_panel(), 1)
 
-        # Replace right view
-        self.shell.set_right_content(spec.make_right_view())
+        try:
+            left = spec.make_left_panel(self._services)
+            right = spec.make_right_view(self._services)
+        except Exception as e:
+            err = QLabel(
+                "Failed to open this module.\n\n"
+                f"{type(e).__name__}: {e}"
+            )
+            err.setWordWrap(True)
+            err.setObjectName("MetaCaption")
+            self._feature_left_lay.addWidget(QLabel(""), 1)
+            self.shell.set_right_content(err)
+            return
+
+        self._feature_left_lay.addWidget(left, 1)
+        self.shell.set_right_content(right)
