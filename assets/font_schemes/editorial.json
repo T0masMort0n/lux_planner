@@ -1,0 +1,11 @@
+{
+  "id": "editorial",
+  "label": "Editorial",
+  "fonts": {
+    "--font-ui": "\"IBM Plex Sans\", \"Segoe UI\", system-ui",
+    "--font-body": "\"Source Serif 4\", \"Georgia\", serif",
+    "--font-heading": "\"Fraunces\", \"Georgia\", serif",
+    "--font-mono": "\"IBM Plex Mono\", ui-monospace, monospace",
+    "--font-micro": "\"Inter\", \"Segoe UI\", system-ui"
+  }
+}

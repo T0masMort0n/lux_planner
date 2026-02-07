@@ -1,0 +1,11 @@
+{
+  "id": "friendly",
+  "label": "Friendly",
+  "fonts": {
+    "--font-ui": "\"Nunito Sans\", \"Segoe UI\", system-ui",
+    "--font-body": "\"Nunito Sans\", \"Segoe UI\", system-ui",
+    "--font-heading": "\"Quicksand\", \"Segoe UI\", system-ui",
+    "--font-mono": "\"IBM Plex Mono\", ui-monospace, monospace",
+    "--font-micro": "\"Nunito Sans\", \"Segoe UI\", system-ui"
+  }
+}

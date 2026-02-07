@@ -1,0 +1,11 @@
+{
+  "id": "compact",
+  "label": "Compact",
+  "fonts": {
+    "--font-ui": "\"Roboto Condensed\", \"Segoe UI\", system-ui",
+    "--font-body": "\"Inter\", \"Segoe UI\", system-ui",
+    "--font-heading": "\"Roboto Condensed\", \"Segoe UI\", system-ui",
+    "--font-mono": "\"JetBrains Mono\", ui-monospace, monospace",
+    "--font-micro": "\"Inter\", \"Segoe UI\", system-ui"
+  }
+}

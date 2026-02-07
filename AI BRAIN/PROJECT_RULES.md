@@ -1,16 +1,18 @@
-# PROJECT_RULES
+# PROJECT_RULES (UPDATED)
 
 These rules override default AI behavior.
 
 All agents must read the full /AI_BRAIN/ folder before performing work.
 If a chat conflicts with /AI_BRAIN/, /AI_BRAIN/ wins.
 
+This file now reflects the **System Interaction Contracts**, **Template Pack System**, and the new **Visual Designer Agent** role. fileciteturn3file0
+
 ---
 
 ## 1) System Purpose
 
 This project is developed by coordinated AI agents under a shared architecture.
-The goal is long-term system integrity, UX consistency, and scalable design.
+The goal is long-term system integrity, UX consistency, scalable design, and **interaction coherence across life domains**.
 
 Local fixes must never damage global design.
 
@@ -24,6 +26,7 @@ Before acting, agents must read:
 - PROJECT_ARCHITECTURE
 - PROJECT_ROADMAP
 - AGENT_SCOPES
+- LUX_SYSTEM_CONTRACTS
 - ARCHITECTURE_NOTES
 - IMPLEMENTATION_LOG
 - RISK_LOG
@@ -53,8 +56,7 @@ Defines:
 - Priorities
 - Feature goals
 
-Does NOT:
-- Define internal architecture mechanics (unless explicitly choosing between architect-approved options)
+Does NOT define internal architecture mechanics (unless choosing between architect-approved options).
 
 ---
 
@@ -62,195 +64,182 @@ Does NOT:
 Owns:
 - Architecture integrity
 - Pattern enforcement
-- Scalability
-- Cross-cutting consistency
+- System interaction frameworks
+- Drag/Drop system
+- Explore Mode infrastructure
+- Sharing infrastructure
+- Pack/Template system architecture
 
-Must review any change introducing or modifying:
-- New state systems (global or cross-feature)
-- New signal/event flows across layers
-- New module relationships / dependencies
-- UI interaction model changes
+Does NOT own:
+- Fonts
+- Colors
+- Visual styling tokens
+
+Must review changes introducing:
+- New state systems
+- New cross-module flows
+- Interaction model changes
 - Data ownership changes
+- System UI framework changes
+
+---
+
+### 🎨 Visual Designer Agent (NEW)
+
+Owns:
+- Typography system **content** (hierarchy choices, weights, fallbacks)
+- Color palette
+- Theme tokens
+- QSS/styles
+- Visual states (hover, pressed, disabled, selected)
+- Visual polish and consistency
+
+Typography boundary (must follow):
+- Themes must use **system typography tokens** (e.g., `font-family: var(--font-body);`) — do not hardcode scheme-specific font stacks in theme QSS.
+- Font stacks live in **Font Scheme JSON** (`assets/font_schemes/<id>.json`) as token → `font-family` mappings.
+- Do NOT introduce new typography token names without Systems Designer approval (contract change).
 
 ---
 
 ### 🔧 Coder Agent
 Owns:
-- Implementing features
+- Feature implementation
 - Bug fixes
-- Refactoring within established patterns
+- Refactoring within patterns
 
-Must NOT (without Systems Designer approval):
+Must NOT:
 - Modify AppShell layout patterns
 - Introduce cross-feature imports
 - Create feature-level animation systems
 - Add feature-specific styling instead of system tokens
-- Change navigation structure or routing patterns
+- Change navigation structure
 - Add global/shared state systems
-- Introduce new system-wide mechanisms
-
-Coder proposes. Systems Designer approves architecture-impacting changes.
+- Invent new visual tokens (Visual Designer lane)
 
 ---
 
 ### 🧪 Test Engineer Agent
 Owns:
-- Edge cases and failure modes
-- UI stress scenarios (rapid interactions, resizing, transitions)
-- Race conditions and re-entrancy risks
-- Regression test suggestions
-
-Focus: “What could break?” (not how to build)
+- Failure modes
+- Race conditions
+- Re-entrancy risks
+- Drag/drop interruption safety
+- Sharing safety
+- Pack import/dedup correctness
 
 ---
 
 ### 🧹 Simplicity Auditor Agent
 Owns:
 - Reducing complexity and drift
-- Removing duplication
-- Consolidating state/signals where appropriate
-- Flagging over-engineering and “one-off” patterns
-
-May challenge any solution that increases complexity without clear justification.
+- Consolidating state/signals
+- Flagging over-engineering
 
 ---
 
 ### 📚 Documentation Agent
 Owns:
-- Updating /AI_BRAIN/ docs after accepted changes
+- Updating /AI_BRAIN/ docs
 - Recording WHY decisions exist
-- Keeping docs concise, structured, and current
-
-If it is not documented, it is not part of the system.
 
 ---
 
-## 5) System UI Rules
+## 5) System Interaction Rules (NEW)
 
-System UI defines layout patterns.
+The following are **system contracts**, not feature choices:
+
+### Drag & Drop
+“If it exists, you can yeet it somewhere else.”  
+System-owned. Features provide content only. No feature-level drag systems.
+
+### Safe Release
+All drags must have cancel methods:
+- Cancel zone
+- Invalid drop
+- ESC
+
+### Explore Mode
+System-owned inspection layer using bottom panel. Features only register metadata.
+
+### Sharing
+- Copy-first model
+- No auto-overwrite
+- Update sharing is intentional
+
+### Template Packs
+- Packs behave like playlists
+- Items can belong to multiple packs
+- Import uses deduplication rules
+- Imported data is “proposals,” not canonical truth
+
+---
+
+## 6) System UI Rules
+
 Features supply CONTENT ONLY.
+Structure, motion, theme, and interaction systems are system-owned.
 
-Features may NOT:
-- Modify AppShell layout patterns
-- Implement their own animation systems
-- Implement their own theming systems
-- Apply custom styling outside system tokens
-- Embed navigation logic inside features
+### Typography Schemes (System Contract)
+Typography is a shared **system resource**, not a per-theme choice.
 
-All visuals flow through the system theme layer (QSS/tokens/widgets).
-Motion consistency is system-owned.
+- System defines the token names: `--font-ui`, `--font-body`, `--font-heading`, `--font-mono`, `--font-micro`.
+- Themes must reference tokens (use `font-family: var(--font-body);` style) and must not embed scheme-specific font-family stacks.
+- Font schemes are reusable mappings stored in `assets/font_schemes/<id>.json` (Visual Designer-owned content).
+- System applies schemes via Qt-safe substitution (no CSS-variable reliance).
+- Bundled fonts under `assets/fonts/**` are registered by the System once per app lifecycle (must not rerun on theme switching).
+- Scheme loading must be bounded + fail-soft (bad/missing schemes never block startup).
 
----
-
-## 6) Firm Architectural Boundaries (Do Not Cross)
-
-Violations include:
-- A feature modifies AppShell layout
-- A feature imports another feature
-- A feature introduces its own animation system
-- A feature adds feature-specific styling instead of system tokens
-- Navigation logic leaks into features
-
-Architecture layer owns structure. Features remain modular.
+If a change affects:
+- token set / naming,
+- scheme resolution mechanism,
+- theme application pipeline,
+it requires Systems Designer review.
 
 ---
 
 ## 7) Performance Rules
 
-- No heavy operations on startup
-- Long operations must be cancellable
-- Queries must be bounded
+- No heavy startup operations
+- Long operations cancellable
+- Queries bounded
 - Historical data must not slow daily use
-
-Prefer incremental loading + pagination where relevant.
 
 ---
 
 ## 8) Data Lifecycle
 
-- Nothing is deleted, only archived
-- Archived data is hidden, not removed
+Nothing deleted, only archived.
 
 ---
 
-## 9) Task Model
-
-- Tasks are definitions
-- Occurrences are instances
-- Completion is stored on occurrences
-
----
-
-## 10) UI Philosophy
-
-UI must remain:
-- Stable layouts
-- Soft animations
-- No jumpiness
-- Visual calmness
-- Luxury feel (not flashy)
-
-All UI transitions must be interruption-safe and re-entrancy-safe.
-
----
-
-## 11) Change Protocol (Required)
+## 9) Change Protocol
 
 No change is “done” until:
 
-1) Coder proposes implementation (or implements within approved boundaries)
-2) Systems Designer evaluates architectural impact (when applicable)
-3) Test Engineer identifies risks + test scenarios
-4) Decision accepted/revised
-5) Documentation updated (logs + notes)
+1) Coder proposes
+2) Systems Designer evaluates architecture (if applicable)
+3) Visual Designer reviews if visual changes
+4) Test Engineer reviews risks
+5) Decision accepted/revised
+6) Documentation updated
 
 ---
 
-## 12) Architecture Protection Triggers (Require Systems Designer Approval)
-
-- New global variables
-- New shared state
-- New UI state machines
-- New cross-module signals/events
-- Module dependency changes
-- Data ownership changes
-- Any feature touching AppShell / navigation / theme tokens
-
----
-
-## 13) Simplicity Principle
+## 10) Simplicity Principle
 
 Prefer:
 - Fewer states
 - Fewer signals
 - Single source of truth
-- Minimal abstraction layers
 
-Complexity must be justified in writing (in ARCHITECTURE_NOTES and CHANGE_LOG).
+Complexity must be justified in writing.
 
 ---
 
-## 14) Knowledge Preservation
+## 11) Knowledge Preservation
 
 After accepted changes, update:
 - ARCHITECTURE_NOTES
 - IMPLEMENTATION_LOG
 - RISK_LOG
 - CHANGE_LOG
-
----
-
-## 15) Conflict Resolution
-
-Order of authority:
-1) System integrity (Systems Designer)
-2) UX intent (Product Driver)
-3) Simplicity principle (Simplicity Auditor)
-
----
-
-## 16) General output rules for all roles
-
-1) Never include meta-instructions inside code files (e.g., “<REPLACE ENTIRE FILE WITH THIS>”, “PASTE HERE”, “BEFORE/AFTER”, commentary). Code blocks must contain only valid code for that file.
-
-___

@@ -1,20 +1,21 @@
-/* Graphite - minimal */
+/* Cloudy v2 - soft neutral daylight (more depth, clearer hierarchy) */
+
 QWidget {
-  background: #0e1012;
-  color: #e6edf3;
+  background: #e3e8ee;
+  color: #2b323c;
   font-family: var(--font-ui);
   font-size: 14px;
 }
 
 #Card {
-  background: rgba(255,255,255,0.050);
-  border: 1px solid rgba(255,255,255,0.080);
+  background: rgba(255,255,255,0.76);
+  border: 1px solid rgba(15,23,35,0.09);
   border-radius: 16px;
 }
 
 QToolButton#AppTitleButton {
   font-family: var(--font-heading);
-  color: #c6a447;
+  color: #4f6f86;
   font-size: 16px;
   font-weight: 600;
   padding: 6px 10px;
@@ -29,19 +30,19 @@ QLabel#TitleUnified {
 
 QLabel#MetaCaption {
   font-family: var(--font-micro);
-  color: rgba(230,237,243,0.66);
+  color: rgba(43,50,60,0.62);
   font-size: 12px;
 }
 
 QPushButton {
-  background: rgba(255,255,255,0.040);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(15,23,35,0.10);
   border-radius: 14px;
   padding: 10px 14px;
   text-align: left;
 }
 
 QPushButton:hover {
-  border: 2px solid rgba(255,255,255,0.18);
-  color: #e6edf3;
+  border: 2px solid rgba(79,111,134,0.42);
+  color: #3f5e73;
 }

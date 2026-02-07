@@ -7,17 +7,70 @@ Agents may inspect other areas for context, but must stay in-lane for modificati
 
 ## Systems Designer Agent (Architecture Integrity)
 
+**Owns system structure, NOT cosmetics.**
+
 Primary focus:
 - src/lux/app/* (bootstrap, lifecycle, navigation)
-- src/lux/ui/qt/* (app_shell, main_window, theme, styles, widgets)
+- src/lux/ui/qt/* **STRUCTURE ONLY**
+  - app_shell
+  - main_window
+  - panel architecture
+  - layout regions
+  - system surfaces (bottom panel, overlays)
+  - interaction frameworks (drag/drop, explore mode plumbing, share plumbing)
 - src/lux/core/* (types/time/errors/logging/settings)
 - src/lux/data/* (db, migrations, models, repositories)
 - docs/* and /AI_BRAIN/*
+
+Does NOT own:
+- Color palettes
+- Fonts
+- Styling tokens
+- Visual polish
+- Theme aesthetics
 
 Typical outputs:
 - Approve/reject architecture-impacting changes
 - Define/adjust system-level interfaces
 - Enforce layering and boundaries
+- Define interaction systems and contracts
+
+---
+
+## Visual Designer Agent (Aesthetic Systems)
+
+**Owns how the system looks. Does NOT change how it works.**
+
+Primary focus:
+- src/lux/ui/qt/theme/*
+- src/lux/ui/qt/styles/*
+- Style tokens, QSS, visual variables
+- Typography system
+- Color system
+- Elevation/shadow system
+- Radius/shape system
+- Visual state styling (hover, pressed, disabled, selected)
+
+May refine:
+- Spacing *rhythm* (visual balance), but not structural layout decisions
+- Visual alignment polish (without moving controls)
+- Component visual consistency
+
+Must NOT:
+- Change layout structure
+- Add/remove UI elements
+- Change interaction logic
+- Modify navigation
+- Alter drag/drop behavior
+- Introduce new components
+- Change panel architecture
+- Touch business logic or data model
+
+Typical outputs:
+- Updated theme tokens
+- Improved typography hierarchy
+- Contrast/readability fixes
+- Visual consistency improvements
 
 ---
 
@@ -34,6 +87,7 @@ Rules:
 - No cross-feature imports
 - No AppShell layout changes
 - No feature-owned theme/motion/navigation
+- Uses theme tokens provided by Visual Designer (do not invent new visual tokens)
 
 ---
 
@@ -46,6 +100,10 @@ Primary focus:
   - src/lux/ui/qt/main_window.py
   - src/lux/ui/qt/app_shell.py
   - navigation transitions
+
+Also validates:
+- Visual contrast/readability regressions
+- That visual changes do not break usability or clarity
 
 Typical outputs:
 - Regression scenarios
@@ -61,6 +119,8 @@ Primary focus:
   - src/lux/ui/qt/* state/signals
   - service/repo layers across features
   - duplicated widgets/helpers
+
+Does NOT optimize visual style — that is Visual Designer’s lane.
 
 Typical outputs:
 - “Simplify” proposals (merge flags, consolidate states, reduce duplication)
@@ -79,3 +139,30 @@ Typical outputs:
 - Keep docs concise and standardized
 
 ---
+
+## Product Driver Advisor (Workflow Orchestration)
+
+Primary focus:
+- Workflow sequencing
+- Splitting large changes into safe phases
+- Selecting the right agent order and review gates
+
+Does NOT:
+- Design architecture
+- Write code
+- Make final aesthetic calls
+
+---
+
+# Role Boundary Summary
+
+| Area | Owner |
+|------|------|
+| Layout structure | Systems Designer |
+| Interaction systems | Systems Designer |
+| Theme, colors, fonts | Visual Designer |
+| Feature logic | Coder Agent |
+| Tests & risk | Test Engineer |
+| Complexity control | Simplicity Auditor |
+| Documentation | Documentation Agent |
+| Workflow sequencing | Product Driver Advisor |

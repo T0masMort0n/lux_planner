@@ -1,0 +1,11 @@
+{
+  "id": "bundled-core",
+  "label": "Bundled Core",
+  "fonts": {
+    "--font-ui": "\"Inter\", \"Segoe UI\", system-ui",
+    "--font-body": "\"IBM Plex Sans\", \"Segoe UI\", system-ui",
+    "--font-heading": "\"Manrope\", \"Segoe UI\", system-ui",
+    "--font-mono": "ui-monospace, \"Cascadia Mono\", \"Consolas\", monospace",
+    "--font-micro": "\"Nunito Sans\", \"Segoe UI\", system-ui"
+  }
+}

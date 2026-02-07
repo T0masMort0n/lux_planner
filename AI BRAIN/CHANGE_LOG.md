@@ -1,41 +1,72 @@
-# CHANGE_LOG
 
-Use this file as the project’s “institutional memory.”
-It records WHY changes were made in user-facing terms, plus the rule implications for future work.
-
-Owned by the Documentation Agent (with input from the Systems Designer).
-
----
-
-## Template
-
-## YYYY-MM-DD — <short title>
+## 2026-02-06 — System Contracts & Governance Consolidation
 **User Problem / Goal:**  
-**What Changed (high level):**  
-**Why This Matters:**  
-**Rules / Constraints Updated:**  
-**Follow-ups / TODOs:**  
-
----
-
-## Entries
-
-(Empty by default — add entries as decisions are accepted and merged.)
-
-## 2026-02-05 — Add starter UIs for Exercise, Goals, and refresh To Do
-**User Problem / Goal:**  
-Provide attractive, system-themed starter UIs for remaining feature modules (exercise/goals) and improve the basic To Do UI.
+Prevent system drift and ensure all future development aligns with interaction-first life system design.
 
 **What Changed (high level):**  
-- Added richer, card-based sample layouts for Exercise and Goals (left panel + right view).  
-- Refreshed To Do left/right UIs to better match the system look while keeping existing controller wiring.
+- Adopted System Interaction Contracts as governing law  
+- Defined Drag/Drop, Explore Mode, Sharing, Packs as system frameworks  
+- Introduced Visual Designer role  
+- Formalized admin governance (Product Driver + AI)
 
 **Why This Matters:**  
-The team can now iterate on feature wiring and data flows without blocking on layout scaffolding, while keeping feature boundaries intact.
+Establishes Lux as a coherent platform rather than feature collection.
 
 **Rules / Constraints Updated:**  
-- None (all changes stay within feature UI content; no new system mechanisms).
+System contracts now override local design choices.
 
 **Follow-ups / TODOs:**  
-- Wire buttons to feature controllers/services once UX flows are finalized.  
-- Add selection + details flow for To Do (requires system-approved interaction model).  
+- Implement system service scaffolding
+- Expand pack adapters
+
+**Signed:** Product Driver & AI Admin
+
+2026-02-06 — Cross-Theme Typography System Activation (Visual Layer)
+
+User Problem / Goal:
+Ensure font schemes selected in Settings visually propagate across all themes with consistent hierarchy and without hardcoded font stacks blocking the system.
+
+What Changed (high level):
+
+All theme QSS files converted from fixed font-family stacks to system typography tokens
+
+Visual hierarchy standardized across themes:
+
+UI surfaces → --font-ui
+
+Titles / section headers → --font-heading
+
+Metadata / captions → --font-micro
+
+Added a bundled-safe visual font scheme to ensure reliable typography identity using included fonts
+
+Why This Matters:
+Typography is now:
+
+centrally controlled
+
+theme-independent
+
+instantly switchable via scheme selector
+
+visually consistent across the product
+
+This unlocks typography as a system-level design lever rather than a per-theme styling detail.
+
+Rules / Constraints Observed:
+
+No system mechanics altered
+
+No new tokens introduced
+
+No layout, spacing, color, or interaction changes
+
+Strict adherence to Typography Token Contract and Agent Scope boundaries
+
+Follow-ups / TODOs:
+
+Test cross-theme switching for visual regressions
+
+Monitor layout density under Compact & Editorial schemes
+
+Signed: Visual Designer Agent 🎨

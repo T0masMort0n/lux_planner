@@ -1,25 +1,27 @@
-/* Graphite - minimal */
+/* Cloudy Warm - soft warm daylight (gentle, cozy, non-glary) */
+
 QWidget {
-  background: #0e1012;
-  color: #e6edf3;
+  background: #efe9e3;
+  color: #2f2a25;
   font-family: var(--font-ui);
   font-size: 14px;
 }
 
 #Card {
-  background: rgba(255,255,255,0.050);
-  border: 1px solid rgba(255,255,255,0.080);
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(35,27,20,0.085);
   border-radius: 16px;
 }
 
 QToolButton#AppTitleButton {
   font-family: var(--font-heading);
-  color: #c6a447;
+  color: #8a6b4f;
   font-size: 16px;
   font-weight: 600;
   padding: 6px 10px;
   border-radius: 10px;
 }
+
 
 QLabel#TitleUnified {
   font-family: var(--font-heading);
@@ -27,21 +29,22 @@ QLabel#TitleUnified {
   font-weight: 700;
 }
 
+
 QLabel#MetaCaption {
   font-family: var(--font-micro);
-  color: rgba(230,237,243,0.66);
+  color: rgba(47,42,37,0.60);
   font-size: 12px;
 }
 
 QPushButton {
-  background: rgba(255,255,255,0.040);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(35,27,20,0.095);
   border-radius: 14px;
   padding: 10px 14px;
   text-align: left;
 }
 
 QPushButton:hover {
-  border: 2px solid rgba(255,255,255,0.18);
-  color: #e6edf3;
+  border: 2px solid rgba(138,107,79,0.40);
+  color: #6f533d;
 }

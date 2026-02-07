@@ -1,15 +1,21 @@
 from __future__ import annotations
 
 from PySide6.QtCore import Qt, QTimer
-
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QToolButton, QComboBox
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QToolButton,
+    QComboBox,
 )
 
 from lux.app.navigation import AppModuleSpec
 from lux.core.settings.store import SettingsStore
 from lux.core.settings.schema import THEMES_AVAILABLE
 from lux.ui.qt.app_shell import AppShell
+from lux.ui.qt.settings_view import SettingsLeftPanel, SettingsRightView, SettingsCallbacks
 from lux.ui.qt.theme import apply_theme_by_name
 from lux.ui.qt.widgets.buttons import LuxButton
 
@@ -21,21 +27,23 @@ class MainWindow(QMainWindow):
         self._registry = registry
         self._app = app
 
+        self._settings_right: SettingsRightView | None = None
+        self._in_settings = False
+
         self.setWindowTitle("Lux Planner")
         self.resize(1200, 780)
 
         self.shell = AppShell()
         self.setCentralWidget(self.shell)
 
-        # Top-of-left content: title button + feature-provided panel below
-        self._left_root = QWidget()
-        left_root_lay = QVBoxLayout(self._left_root)
-        left_root_lay.setContentsMargins(0, 0, 0, 0)
-        left_root_lay.setSpacing(12)
-
-        # Title row (click opens overlay menu)
-        title_row = QHBoxLayout()
-        title_row.setContentsMargins(0, 0, 0, 0)
+        # -----------------------------------
+        # HeaderSurface content (system-owned)
+        # Dropdown menu anchor remains here.
+        # -----------------------------------
+        header_root = QWidget()
+        header_lay = QHBoxLayout(header_root)
+        header_lay.setContentsMargins(0, 0, 0, 0)
+        header_lay.setSpacing(0)
 
         self.title_btn = QToolButton()
         self.title_btn.setAutoRaise(True)
@@ -43,21 +51,22 @@ class MainWindow(QMainWindow):
         self.title_btn.clicked.connect(self._toggle_menu)
         self.title_btn.setObjectName("AppTitleButton")
 
-        title_row.addStretch(1)
-        title_row.addWidget(self.title_btn)
-        title_row.addStretch(1)
+        header_lay.addWidget(self.title_btn, 1, alignment=Qt.AlignLeft)
 
-        left_root_lay.addLayout(title_row)
+        self.shell.set_left_header_content(header_root)
 
+        # -----------------------------------
+        # FeatureLeftSurface content holder
+        # (feature switching swaps ONLY child widgets here)
+        # -----------------------------------
         self._feature_left_holder = QWidget()
         self._feature_left_lay = QVBoxLayout(self._feature_left_holder)
         self._feature_left_lay.setContentsMargins(0, 0, 0, 0)
         self._feature_left_lay.setSpacing(12)
 
-        left_root_lay.addWidget(self._feature_left_holder, 1)
+        self.shell.set_feature_left_content(self._feature_left_holder)
 
-        self.shell.set_left_content(self._left_root)
-
+        # NavSurface stays system-owned. We don't populate it yet (width is policy-bound in AppShell).
         # Overlay menu content
         self.shell.set_overlay_content(self._build_nav_menu())
 
@@ -72,37 +81,43 @@ class MainWindow(QMainWindow):
         w = QWidget()
         lay = QVBoxLayout(w)
         lay.setContentsMargins(0, 0, 0, 0)
-        lay.setSpacing(10)
+        lay.setSpacing(12)
 
-        # App buttons
-        #
-        # IMPORTANT:
-        # Use `pressed` (not `clicked`) so selection works reliably even if the
-        # mouse release happens after the user has already moved to another button.
+        # Quick title
+        hdr = QLabel("Menu")
+        hdr.setObjectName("TitleUnified")
+        lay.addWidget(hdr)
+
+        # Quick theme row
+        theme_row = QWidget()
+        tr = QHBoxLayout(theme_row)
+        tr.setContentsMargins(0, 0, 0, 0)
+        tr.setSpacing(10)
+
+        t_lbl = QLabel("Theme")
+        t_lbl.setObjectName("MetaCaption")
+
+        self._theme_combo = QComboBox()
+        self._theme_combo.addItems(THEMES_AVAILABLE)
+        self._theme_combo.setCurrentText(self._settings.get_theme())
+        self._theme_combo.currentTextChanged.connect(self._on_theme_changed)
+
+        tr.addWidget(t_lbl)
+        tr.addWidget(self._theme_combo, 1)
+        lay.addWidget(theme_row)
+
+        # Feature list
         for spec in self._registry:
-            b = LuxButton(spec.title.replace("Lux ", ""))
+            b = LuxButton(spec.title)
             b.setMinimumHeight(44)
-            b.pressed.connect(lambda key=spec.key: self._on_select_app(key))
+            b.pressed.connect(lambda k=spec.key: self._on_select_app(k))
             lay.addWidget(b)
 
-        lay.addStretch(1)
-
-        # Settings: theme dropdown (simple and modular)
-        settings_row = QWidget()
-        s_lay = QHBoxLayout(settings_row)
-        s_lay.setContentsMargins(0, 0, 0, 0)
-        s_lay.setSpacing(10)
-
-        lbl = QLabel("Theme")
-        lbl.setObjectName("MetaCaption")
-        combo = QComboBox()
-        combo.addItems(THEMES_AVAILABLE)
-        combo.setCurrentText(self._settings.get_theme())
-        combo.currentTextChanged.connect(self._on_theme_changed)
-
-        s_lay.addWidget(lbl)
-        s_lay.addWidget(combo, 1)
-        lay.addWidget(settings_row)
+        # Settings / Exit
+        settings_btn = LuxButton("Settings")
+        settings_btn.setMinimumHeight(44)
+        settings_btn.pressed.connect(self._on_open_settings)
+        lay.addWidget(settings_btn)
 
         exit_btn = LuxButton("Exit")
         exit_btn.setMinimumHeight(44)
@@ -111,25 +126,48 @@ class MainWindow(QMainWindow):
 
         return w
 
+    def _apply_theme(self) -> None:
+        apply_theme_by_name(
+            self._app,
+            theme_name=self._settings.get_theme(),
+            font_scale=self._settings.get_font_scale(),
+            font_scheme_id=self._settings.get_font_scheme_id(),
+        )
+
     def _on_theme_changed(self, theme: str) -> None:
         self._settings.set_theme(theme)
-        apply_theme_by_name(self._app, theme_name=theme)
+        self._apply_theme()
+
+    def _on_open_settings(self) -> None:
+        self._open_settings()
+        QTimer.singleShot(0, self.shell.close_nav_overlay)
+
+    def _open_settings(self) -> None:
+        self._in_settings = True
+        self.title_btn.setText("Settings")
+
+        # Replace left panel with system-owned Settings categories.
+        self._clear_left_surface()
+
+        def on_select_category(key: str) -> None:
+            if self._settings_right is not None:
+                self._settings_right.show_category(key)
+
+        left = SettingsLeftPanel(on_select_category=on_select_category)
+        self._feature_left_lay.addWidget(left, 1)
+
+        callbacks = SettingsCallbacks(
+            apply_theme=self._apply_theme,
+            apply_font_scale=self._apply_theme,
+        )
+        self._settings_right = SettingsRightView(settings=self._settings, callbacks=callbacks)
+        self.shell.set_right_content(self._settings_right)
 
     def _on_select_app(self, key: str):
-        # Switch immediately (on press), then collapse the menu on the next tick so
-        # we don't interfere with the press event delivery.
         self._switch_to(key)
         QTimer.singleShot(0, self.shell.close_nav_overlay)
 
-    def _switch_to(self, key: str) -> None:
-        spec = next((s for s in self._registry if s.key == key), None)
-        if spec is None:
-            return
-
-        self._active_key = key
-        self.title_btn.setText(spec.title)
-
-        # Replace left feature panel (safe clear: widgets + spacers)
+    def _clear_left_surface(self) -> None:
         while self._feature_left_lay.count():
             item = self._feature_left_lay.takeAt(0)
             ww = item.widget()
@@ -137,6 +175,19 @@ class MainWindow(QMainWindow):
                 ww.setParent(None)
                 ww.deleteLater()
 
+    def _switch_to(self, key: str) -> None:
+        spec = next((s for s in self._registry if s.key == key), None)
+        if spec is None:
+            return
+
+        self._in_settings = False
+        self._settings_right = None
+
+        self._active_key = key
+        self.title_btn.setText(spec.title)
+
+        # Replace left feature panel (safe clear: widgets + spacers)
+        self._clear_left_surface()
         self._feature_left_lay.addWidget(spec.make_left_panel(), 1)
 
         # Replace right view
