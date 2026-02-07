@@ -1,0 +1,1 @@
+.\.venv\Scripts\python.exe -m PyInstaller --noconfirm --clean --windowed --onedir --name LuxPlanner --paths "src" --collect-all "PySide6" --add-data "assets;assets" --add-data "src\lux\data\migrations;lux\data\migrations" "src\lux\__main__.py"
