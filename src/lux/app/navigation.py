@@ -78,7 +78,7 @@ def build_default_registry() -> list[AppModuleSpec]:
         AppModuleSpec(
             key="todo",
             title="Lux To Do",
-            make_left_panel=lambda services: TodoLeftPanel(),
-            make_right_view=lambda services: TodoRightView(),
+            make_left_panel=lambda services: TodoLeftPanel(services=services),
+            make_right_view=lambda services: TodoRightView(services=services),
         ),
     ]

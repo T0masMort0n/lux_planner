@@ -1,36 +1,78 @@
+# ===============================
+# OS / System Junk
+# ===============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
 # Python
+# ===============================
 __pycache__/
 *.py[cod]
-*.pyo
+*$py.class
+*.so
 *.pyd
-*.sqlite3
-*.db
+*.pyo
 
 # Virtual environments
 .venv/
 venv/
 env/
+ENV/
 
-# IDE
+# ===============================
+# Build / Distribution
+# ===============================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ===============================
+# Logs / Temp
+# ===============================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# ===============================
+# IDE / Editor
+# ===============================
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.user
 
-# OS
-.DS_Store
-Thumbs.db
+# ===============================
+# Database / Local Runtime Files
+# ===============================
+*.db
+*.sqlite
+*.sqlite3
 
-# Build
-dist/
-build/
+# ===============================
+# AI_BRAIN Rules (STRICT)
+# ===============================
+# Ignore EVERYTHING inside AI_BRAIN by default
+AI_BRAIN/*
 
-# Logs
-*.log
+# Do NOT track subdirectories inside AI_BRAIN
+AI_BRAIN/*/
 
-# Dumps (these get big fast)
-dumps/
-PROJECT_DUMP.txt
-PROJECT_DIRECTORIES.txt
+# Allow only direct markdown files in AI_BRAIN root
+!AI_BRAIN/*.md
 
-# Local app data (important)
-planner.db
-settings.json
+# ===============================
+# Archives / Packages
+# ===============================
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar

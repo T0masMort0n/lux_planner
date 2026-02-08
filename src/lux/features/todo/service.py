@@ -3,8 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, timedelta
 
-from lux.data.db import ensure_db_ready
-from lux.data.repositories.tasks_repo import TasksRepository
 from lux.features.todo.domain import TaskOccurrence
 from lux.features.todo.repo import TodoRepo
 
@@ -29,32 +27,28 @@ def _range_for_days(days: int) -> DateRange:
 class TodoService:
     """
     Feature service. UI calls here; DB stays behind repos.
+
+    IMPORTANT:
+    - DB lifecycle is system-owned. This service must be constructed via bootstrap injection.
     """
 
-    def __init__(self) -> None:
-        # Local, feature-owned access to the shared system DB.
-        # (Still a single DB file; we just open a connection here.)
-        conn = ensure_db_ready()
-        self._repo = TodoRepo(TasksRepository(conn))
+    def __init__(self, repo: TodoRepo) -> None:
+        self._repo = repo
 
     # -----------------------
     # Primary: Today
     # -----------------------
     def list_today(self, limit: int = 200) -> list[TaskOccurrence]:
         t = _today_str()
-        rows = self._repo.list_occurrences_for_range(t, t, limit=limit)
+        rows = self._repo.list_occurrences_for_range_joined(t, t, limit=limit)
 
-        # Join title via per-task lookup (still bounded by day's rows).
-        # If needed later, we can optimize with a SQL join.
         out: list[TaskOccurrence] = []
         for r in rows:
-            task = self._repo.get_task(r.task_id)
-            title = task.title if task else f"Task #{r.task_id}"
             out.append(
                 TaskOccurrence(
                     id=r.id,
                     task_id=r.task_id,
-                    title=title,
+                    title=r.title,
                     due_date=r.due_date,
                     due_time=r.due_time,
                     completed=(r.completed_at is not None),
@@ -69,7 +63,7 @@ class TodoService:
             return 0
 
         task_id = self._repo.create_task(title=clean, notes="")
-        occ_id = self._repo.create_occurrence(task_id=task_id, due_date=_today_str(), due_time=None, sort_key=0)
+        occ_id = self._repo.create_occurrence(task_id=task_id, due_date=_today_str(), due_time=None, sort_key=None)
         return occ_id
 
     def set_completed(self, occurrence_id: int, completed: bool) -> None:
@@ -87,17 +81,15 @@ class TodoService:
     # -----------------------
     def list_upcoming(self, days: int = 7, limit: int = 400) -> list[TaskOccurrence]:
         dr = _range_for_days(days)
-        rows = self._repo.list_occurrences_for_range(dr.start, dr.end, limit=limit)
+        rows = self._repo.list_occurrences_for_range_joined(dr.start, dr.end, limit=limit)
 
         out: list[TaskOccurrence] = []
         for r in rows:
-            task = self._repo.get_task(r.task_id)
-            title = task.title if task else f"Task #{r.task_id}"
             out.append(
                 TaskOccurrence(
                     id=r.id,
                     task_id=r.task_id,
-                    title=title,
+                    title=r.title,
                     due_date=r.due_date,
                     due_time=r.due_time,
                     completed=(r.completed_at is not None),
@@ -105,3 +97,16 @@ class TodoService:
                 )
             )
         return out
+
+    # -----------------------
+    # Drag & Drop semantics
+    # -----------------------
+    def reschedule_occurrence(self, occurrence_id: int, target_date: str) -> None:
+        if occurrence_id <= 0:
+            return
+        self._repo.reschedule_occurrence(occurrence_id=occurrence_id, target_date=target_date)
+
+    def create_occurrence_for_date(self, task_definition_id: int, target_date: str) -> int:
+        if task_definition_id <= 0:
+            return 0
+        return self._repo.create_occurrence(task_id=task_definition_id, due_date=target_date, due_time=None, sort_key=None)

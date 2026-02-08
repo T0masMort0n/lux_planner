@@ -10,6 +10,7 @@ class TaskDefinitionRow:
     id: int
     title: str
     notes: str
+    parent_task_id: Optional[int]
     archived: bool
     created_at: str
     updated_at: str

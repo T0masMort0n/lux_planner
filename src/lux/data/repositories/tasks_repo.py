@@ -27,13 +27,13 @@ class TasksRepository:
     # -------------------------
     # Definitions
     # -------------------------
-    def create_task(self, title: str, notes: str = "") -> int:
+    def create_task(self, title: str, notes: str = "", parent_task_id: int | None = None) -> int:
         cur = self._conn.execute(
             """
-            INSERT INTO task_definitions(title, notes, archived)
-            VALUES (?, ?, 0)
+            INSERT INTO task_definitions(title, notes, parent_task_id, archived)
+            VALUES (?, ?, ?, 0)
             """,
-            (title.strip(), notes or ""),
+            (title.strip(), notes or "", parent_task_id),
         )
         self._conn.commit()
         return int(cur.lastrowid)
@@ -45,10 +45,19 @@ class TasksRepository:
         ).fetchone()
         if not row:
             return None
+
+        parent_task_id: int | None
+        try:
+            v = row["parent_task_id"]
+            parent_task_id = int(v) if v is not None else None
+        except Exception:
+            parent_task_id = None
+
         return TaskDefinitionRow(
             id=int(row["id"]),
             title=str(row["title"]),
             notes=str(row["notes"]),
+            parent_task_id=parent_task_id,
             archived=bool_from_int(row["archived"]),
             created_at=str(row["created_at"]),
             updated_at=str(row["updated_at"]),
@@ -65,11 +74,18 @@ class TasksRepository:
 
         out: list[TaskDefinitionRow] = []
         for r in rows:
+            try:
+                v = r["parent_task_id"]
+                parent_task_id = int(v) if v is not None else None
+            except Exception:
+                parent_task_id = None
+
             out.append(
                 TaskDefinitionRow(
                     id=int(r["id"]),
                     title=str(r["title"]),
                     notes=str(r["notes"]),
+                    parent_task_id=parent_task_id,
                     archived=bool_from_int(r["archived"]),
                     created_at=str(r["created_at"]),
                     updated_at=str(r["updated_at"]),
@@ -93,19 +109,18 @@ class TasksRepository:
     # -------------------------
     def next_sort_key_for_date(self, due_date: str) -> int:
         """
-        Stable append-order for occurrences on a given date.
-        Uses MAX(sort_key)+1 (bounded by day).
+        Return a stable sort_key for a new occurrence on a given day.
         """
         row = self._conn.execute(
             """
-            SELECT COALESCE(MAX(sort_key), -1) AS max_sort
+            SELECT COALESCE(MAX(sort_key), 0) AS max_sk
             FROM task_occurrences
-            WHERE archived = 0 AND due_date = ?
+            WHERE due_date = ?
             """,
             (due_date,),
         ).fetchone()
-        max_sort = int(row["max_sort"]) if row and row["max_sort"] is not None else -1
-        return max_sort + 1
+        max_sk = int(row["max_sk"] or 0) if row else 0
+        return max_sk + 1
 
     def create_occurrence(
         self,
@@ -126,6 +141,22 @@ class TasksRepository:
         )
         self._conn.commit()
         return int(cur.lastrowid)
+
+    def update_occurrence_due_date(self, occurrence_id: int, target_date: str) -> None:
+        """
+        Reschedule an occurrence to a specific date (YYYY-MM-DD).
+        We also re-assign sort_key to keep stable ordering within the target day.
+        """
+        new_sort = self.next_sort_key_for_date(target_date)
+        self._conn.execute(
+            """
+            UPDATE task_occurrences
+            SET due_date = ?, sort_key = ?, updated_at = ?
+            WHERE id = ?
+            """,
+            (target_date, int(new_sort), now_sqlite(), int(occurrence_id)),
+        )
+        self._conn.commit()
 
     def list_occurrences_for_range(
         self,
@@ -169,9 +200,9 @@ class TasksRepository:
                     id=int(r["id"]),
                     task_id=int(r["task_id"]),
                     due_date=str(r["due_date"]),
-                    due_time=(str(r["due_time"]) if r["due_time"] is not None else None),
+                    due_time=str(r["due_time"]) if r["due_time"] is not None else None,
                     sort_key=int(r["sort_key"]),
-                    completed_at=(str(r["completed_at"]) if r["completed_at"] is not None else None),
+                    completed_at=str(r["completed_at"]) if r["completed_at"] is not None else None,
                     archived=bool_from_int(r["archived"]),
                     created_at=str(r["created_at"]),
                     updated_at=str(r["updated_at"]),
@@ -240,4 +271,53 @@ class TasksRepository:
                 (start_date, end_date, limit),
             ).fetchall()
 
-        out: lis
+        out: list[TaskOccurrenceJoinedRow] = []
+        for r in rows:
+            out.append(
+                TaskOccurrenceJoinedRow(
+                    id=int(r["id"]),
+                    task_id=int(r["task_id"]),
+                    title=str(r["title"]),
+                    notes=str(r["notes"]),
+                    due_date=str(r["due_date"]),
+                    due_time=str(r["due_time"]) if r["due_time"] is not None else None,
+                    sort_key=int(r["sort_key"]),
+                    completed_at=str(r["completed_at"]) if r["completed_at"] is not None else None,
+                    archived=bool_from_int(r["archived"]),
+                    created_at=str(r["created_at"]),
+                    updated_at=str(r["updated_at"]),
+                )
+            )
+        return out
+
+    def set_occurrence_completed(self, occurrence_id: int, completed: bool) -> None:
+        if completed:
+            self._conn.execute(
+                """
+                UPDATE task_occurrences
+                SET completed_at = datetime('now'), updated_at = datetime('now')
+                WHERE id = ?
+                """,
+                (int(occurrence_id),),
+            )
+        else:
+            self._conn.execute(
+                """
+                UPDATE task_occurrences
+                SET completed_at = NULL, updated_at = datetime('now')
+                WHERE id = ?
+                """,
+                (int(occurrence_id),),
+            )
+        self._conn.commit()
+
+    def archive_occurrence(self, occurrence_id: int) -> None:
+        self._conn.execute(
+            """
+            UPDATE task_occurrences
+            SET archived = 1, updated_at = datetime('now')
+            WHERE id = ?
+            """,
+            (int(occurrence_id),),
+        )
+        self._conn.commit()

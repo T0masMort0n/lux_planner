@@ -16,7 +16,7 @@ class TodoRepo:
 
     # ---- Definitions ----
     def create_task(self, title: str, notes: str = "") -> int:
-        return self._tasks.create_task(title=title, notes=notes)
+        return self._tasks.create_task(title=title, notes=notes, parent_task_id=None)
 
     def get_task(self, task_id: int) -> Optional[TaskDefinitionRow]:
         return self._tasks.get_task(task_id)
@@ -36,6 +36,9 @@ class TodoRepo:
             due_time=due_time,
             sort_key=sort_key,
         )
+
+    def reschedule_occurrence(self, occurrence_id: int, target_date: str) -> None:
+        self._tasks.update_occurrence_due_date(occurrence_id=occurrence_id, target_date=target_date)
 
     def list_occurrences_for_range_joined(self, start_date: str, end_date: str, limit: int = 500) -> list[TaskOccurrenceJoinedRow]:
         return self._tasks.list_occurrences_joined_for_range(start_date=start_date, end_date=end_date, limit=limit)

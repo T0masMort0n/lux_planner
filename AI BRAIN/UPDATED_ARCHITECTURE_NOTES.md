@@ -1,4 +1,6 @@
 
+# LUX PLANNER — ARCHITECTURE NOTES
+
 ### Decision: Establish System Interaction Contracts + Admin Governance
 **Date:** 2026-02-06  
 **Owner:** Systems Designer Agent (Admin Decision — Product Driver + AI Admin)  
@@ -55,6 +57,8 @@
 
 **Signed:** Systems Designer Agent
 
+---
+
 ### Decision: Theme Pipeline SSOT Enforcement (Single Source of Truth)
 **Date:** 2026-02-07  
 **Owner:** Systems Designer Agent  
@@ -67,3 +71,20 @@
 - Typography token substitution must be bounded to `font-family:` declarations and fail-soft.  
 **Signed:** Systems Designer Agent
 
+---
+
+### Decision: Dump Generation Allowlist + Output Outside Repo (2026-02-07)
+
+Problem:
+Cross-agent handoffs were being contaminated by non-runtime material (AI_BRAIN and archives) and by generated artifacts. This risks SSOT ambiguity and regressions (agents “learning” outdated rules or stale copies).
+
+Decision:
+Dump generation is now SSOT-friendly and runtime-scoped:
+- Allowlist-only dump contents: `src/**`, `assets/**`, minimal tooling + root build metadata.
+- AI_BRAIN is excluded entirely (including Archive/**).
+- Dump outputs are written outside repo root to a sibling directory (`..\dumps\lux_planner\`) to prevent self-ingestion.
+- Each run overwrites outputs deterministically; stable ordering; read-only dump headers only in the artifact.
+
+Verification:
+- No `==== FILE: AI BRAIN\...` entries in PROJECT_DUMP.txt.
+- No `AI BRAIN` substring present in the dump output.

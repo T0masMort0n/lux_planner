@@ -130,3 +130,7 @@ Run-Git @("push","-u","origin","main")
 Write-Host ""
 Write-Host "SUCCESS - Backup + Main pushed." -ForegroundColor Green
 Write-Host "Remote backup branch: $backupBranch"
+
+Write-Host ""
+Write-Host "Current commit hash:"
+& git rev-parse HEAD

@@ -139,3 +139,24 @@ Quick Add uses canonical scheduler-native type: `item_kind="adhoc"`.
 Day View reschedule is same-day only (time edits).
 
 **Signed:** Systems Designer Agent
+
+### Change: Dump Generation SSOT Hardening (Allowlist + Outside-Repo Output)
+**Date:** 2026-02-07  
+**Owner:** Coder Agent (Tools-only infrastructure change; Systems Designer approved)  
+
+**Problem / Goal:**  
+Prevent agent context contamination and SSOT ambiguity by ensuring PROJECT_DUMP.txt contains only runtime-relevant code/assets, and that dumps cannot self-ingest or include governance archives.
+
+**Solution (mechanics only):**
+- Updated `tools/create_dumps.ps1` to use allowlist-driven traversal for dump generation.
+- Excluded AI_BRAIN entirely (including Archive/**) by construction.
+- Wrote outputs outside repo root to sibling `..\dumps\lux_planner\` and overwrote outputs each run.
+- Preserved deterministic ordering and read-only dump header formatting.
+
+**Verification:**  
+PowerShell checks confirm:
+- No `==== FILE: AI BRAIN\...` entries
+- No `AI BRAIN` substring in the final dump output
+- `==== FILE: src\...` and `==== FILE: assets\...` entries exist
+
+**Signed:** Coder Agent

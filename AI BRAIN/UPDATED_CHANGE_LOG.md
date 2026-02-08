@@ -106,3 +106,21 @@ Canonical type `adhoc` established.
 Same-day-only reschedule confirmed.
 
 **Signed:** Systems Designer Agent
+
+## 2026-02-07 — Dump Generation SSOT Hardening (Allowlist + Outside-Repo Output)
+
+**User Problem / Goal:**  
+Ensure project dumps used for agent handoff are SSOT-safe and do not include AI_BRAIN, archives, backups, caches, or prior dumps.
+
+**What Changed (high level):**
+- Dump generator (`tools/create_dumps.ps1`) now emits an allowlist-only dump:
+  - Includes `src/**` and `assets/**` (themes/fonts/font_schemes) plus minimal tooling + build metadata.
+  - Excludes AI_BRAIN entirely (including Archive/**).
+- Dumps are written outside repo root to `..\dumps\lux_planner\` and overwrite outputs each run.
+
+**Acceptance:**  
+Verified by string checks that no AI_BRAIN content or substring appears in the generated dump output.
+
+**Signed:**  
+Coder Agent (Implementation)  
+Systems Designer Agent (Approval)
