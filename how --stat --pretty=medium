@@ -1,0 +1,46 @@
+[33mcommit f7b9660315f1468101d73fce526c4be252bba8ff[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/backup/20260208-140501[m[33m, [m[1;31morigin/backup/20260208-135927[m[33m, [m[1;32mbackup/20260208-140501[m[33m, [m[1;32mbackup/20260208-135927[m[33m)[m
+Author: T0masMort0n <curtis.baller@gmail.com>
+Date:   Sun Feb 8 13:59:26 2026 -0500
+
+    Auto backup commit 2026-02-08 13:59:25
+
+ .gitignore                                         |  80 [32m+++[m[31m--[m
+ .../ARCHITECTURE_NOTES.md                          |   0
+ .../{Archive => 20260206 into 07}/CHANGE_LOG.md    |   0
+ .../IMPLEMENTATION_LOG.md                          |   0
+ .../LUX_SYSTEM_CONTRACTS.md                        |   0
+ .../PROJECT_ARCHITECTURE.md                        |   0
+ .../PROJECT_ROADMAP.md                             |   0
+ AI BRAIN/{Archive => 20260206 into 07}/RISK_LOG.md |   0
+ .../UPDATED_AGENT_SCOPES.md}                       |   0
+ .../UPDATED_ARCHITECTURE_NOTES.md}                 |  16 [32m+[m
+ .../UPDATED_CHANGE_LOG.md}                         |  18 [32m++[m
+ .../UPDATED_IMPLEMENTATION_LOG.md}                 |  21 [32m++[m
+ AI BRAIN/20260208/UPDATED_LUX_SYSTEM_CONTRACTS.md  | 326 [32m+++++++++++++++++++++[m
+ AI BRAIN/20260208/UPDATED_PROJECT_ROADMAP.md       |  87 [32m++++++[m
+ .../UPDATED_PROJECT_RULES.md}                      |   0
+ AI BRAIN/20260208/UPDATED_RISK_LOG.md              |  71 [32m+++++[m
+ AI BRAIN/LUX_SYSTEM_CONTRACTS.md                   | 250 [32m+++[m[31m-------------[m
+ .../Layout Contract Specification.txt              | 165 [31m-----------[m
+ .../Project Dump Generation Contract.txt           |  92 [31m------[m
+ AI BRAIN/PROJECT_ARCHITECTURE.md                   | 218 [31m--------------[m
+ AI BRAIN/UPDATED_AGENT_SCOPES.md                   | 190 [32m++++++++++++[m
+ AI BRAIN/UPDATED_ARCHITECTURE_NOTES.md             |  90 [32m++++++[m
+ AI BRAIN/UPDATED_CHANGE_LOG.md                     | 126 [32m++++++++[m
+ AI BRAIN/UPDATED_IMPLEMENTATION_LOG.md             | 162 [32m++++++++++[m
+ ...OJECT_ROADMAP.md => UPDATED_PROJECT_ROADMAP.md} |   0
+ AI BRAIN/UPDATED_PROJECT_RULES.md                  | 245 [32m++++++++++++++++[m
+ AI BRAIN/{RISK_LOG.md => UPDATED_RISK_LOG.md}      |   0
+ src/lux/app/bootstrap.py                           |  10 [32m+[m
+ src/lux/app/navigation.py                          |   4 [32m+[m[31m-[m
+ src/lux/app/services.py                            |   2 [32m+[m
+ src/lux/data/migrations/0005_task_hierarchy.sql    |   9 [32m+[m
+ src/lux/data/models/tasks.py                       |   1 [32m+[m
+ src/lux/data/repositories/tasks_repo.py            | 106 [32m++++++[m[31m-[m
+ src/lux/features/todo/repo.py                      |   5 [32m+[m[31m-[m
+ src/lux/features/todo/service.py                   |  41 [32m+[m[31m--[m
+ src/lux/features/todo/ui/controller.py             |  20 [32m+[m[31m-[m
+ src/lux/features/todo/ui/view.py                   |  87 [32m+++++[m[31m-[m
+ src/lux/ui/qt/dragdrop.py                          | 167 [32m+++++++++++[m
+ tools/backup_and_push.ps1                          |   4 [32m+[m
+ 39 files changed, 1859 insertions(+), 754 deletions(-)
