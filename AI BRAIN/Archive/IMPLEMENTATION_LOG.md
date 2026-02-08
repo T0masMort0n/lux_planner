@@ -130,12 +130,3 @@ This change establishes the **Scheduler System Spine**:
 Coder Agent (Implementation)  
 Systems Designer Agent (Architecture Acceptance)
 
-
-
-## 2026-02-07 — Scheduler MVP Loop (System Surface Activation)
-
-Scheduler now operates as a verified **System Interaction Surface** with a full MVP loop (Create → List → Reschedule → Archive).  
-Quick Add uses canonical scheduler-native type: `item_kind="adhoc"`.  
-Day View reschedule is same-day only (time edits).
-
-**Signed:** Systems Designer Agent

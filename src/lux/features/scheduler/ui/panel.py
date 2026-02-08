@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtCore import QDate
+from PySide6.QtCore import QDate, QTime
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -9,25 +9,35 @@ from PySide6.QtWidgets import (
     QCalendarWidget,
     QScrollArea,
     QFrame,
+    QLineEdit,
+    QTimeEdit,
+    QMessageBox,
 )
 
 from lux.core.scheduler.service import SchedulerService
 from lux.features.scheduler.ui.controller import SchedulerController
+from lux.features.scheduler.ui.state import SchedulerState
 from lux.ui.qt.widgets.buttons import LuxButton
 from lux.ui.qt.widgets.cards import Card
 
 
 class SchedulerLeftPanel(QWidget):
-    """
-    Left panel is intentionally “supporting UI” only.
-    It does NOT control right-side switching (AppModuleSpec creates them separately).
+    """Scheduler Left Content Surface (feature-provided).
+
+    Contract:
+    - Date selection updates Day View (via feature-owned SchedulerState).
+    - Quick Add writes via SchedulerService only (through controller adapter).
+    - No DB operations/imports from UI.
     """
 
-    def __init__(self, scheduler_service, parent=None) -> None:
+    def __init__(self, scheduler_service: SchedulerService, state: SchedulerState, parent=None) -> None:
         super().__init__(parent)
 
-        # Injected system service; UI never creates DB-backed services.
+        self._state = state
         self._ctl = SchedulerController(scheduler_service)
+
+        self._state.date_changed.connect(self._on_state_date_changed)  # type: ignore[arg-type]
+        self._state.data_changed.connect(self._refresh_agenda)  # type: ignore[arg-type]
 
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
@@ -37,7 +47,7 @@ class SchedulerLeftPanel(QWidget):
         hdr.setObjectName("MetaCaption")
         root.addWidget(hdr)
 
-        # Mini calendar card
+        # Date selector card
         cal_card = Card()
         cal_lay = QVBoxLayout(cal_card)
         cal_lay.setContentsMargins(10, 10, 10, 10)
@@ -48,43 +58,64 @@ class SchedulerLeftPanel(QWidget):
         cal_lay.addWidget(cal_title)
 
         self._cal = QCalendarWidget()
-        self._cal.setSelectedDate(QDate.currentDate())
-        self._cal.selectionChanged.connect(self._refresh_agenda)  # type: ignore[arg-type]
+        self._cal.setSelectedDate(self._state.selected_date())
+        self._cal.selectionChanged.connect(self._on_calendar_changed)  # type: ignore[arg-type]
         cal_lay.addWidget(self._cal)
 
         root.addWidget(cal_card, 0)
 
-        # Quick actions (placeholders only in Phase 0)
-        actions = Card()
-        a = QVBoxLayout(actions)
-        a.setContentsMargins(10, 10, 10, 10)
-        a.setSpacing(10)
+        # Quick Add card
+        quick = Card()
+        q = QVBoxLayout(quick)
+        q.setContentsMargins(10, 10, 10, 10)
+        q.setSpacing(10)
 
-        row = QHBoxLayout()
-        row.setContentsMargins(0, 0, 0, 0)
-        row.setSpacing(10)
+        q_title = QLabel("Quick Add")
+        q_title.setObjectName("MetaCaption")
+        q.addWidget(q_title)
+
+        self._title = QLineEdit()
+        self._title.setPlaceholderText("Title…")
+        q.addWidget(self._title)
+
+        time_row = QWidget()
+        tr = QHBoxLayout(time_row)
+        tr.setContentsMargins(0, 0, 0, 0)
+        tr.setSpacing(10)
+
+        self._start = QTimeEdit()
+        self._start.setDisplayFormat("HH:mm")
+        self._start.setTime(QTime.currentTime())
+        tr.addWidget(QLabel("Start"), 0)
+        tr.addWidget(self._start, 0)
+
+        self._end = QTimeEdit()
+        self._end.setDisplayFormat("HH:mm")
+        self._end.setTime(QTime.currentTime().addSecs(30 * 60))
+        tr.addWidget(QLabel("End"), 0)
+        tr.addWidget(self._end, 0)
+
+        tr.addStretch(1)
+        q.addWidget(time_row)
+
+        btn_row = QHBoxLayout()
+        btn_row.setContentsMargins(0, 0, 0, 0)
+        btn_row.setSpacing(10)
 
         today_btn = LuxButton("Today")
         today_btn.setMinimumHeight(38)
         today_btn.clicked.connect(lambda: self._cal.setSelectedDate(QDate.currentDate()))  # type: ignore[arg-type]
-        row.addWidget(today_btn, 1)
+        btn_row.addWidget(today_btn, 1)
 
-        new_btn = LuxButton("New Event")
-        new_btn.setMinimumHeight(38)
-        new_btn.setEnabled(False)  # Phase 0: no create UI
-        row.addWidget(new_btn, 1)
+        add_btn = LuxButton("Add")
+        add_btn.setMinimumHeight(38)
+        add_btn.clicked.connect(self._on_add)  # type: ignore[arg-type]
+        btn_row.addWidget(add_btn, 1)
 
-        a.addLayout(row)
+        q.addLayout(btn_row)
+        root.addWidget(quick, 0)
 
-        for name in ["Day", "Week", "Month", "Task Assignment"]:
-            b = LuxButton(name)
-            b.setMinimumHeight(38)
-            b.setEnabled(False)
-            a.addWidget(b)
-
-        root.addWidget(actions, 0)
-
-        # Agenda preview (reads from SchedulerService via controller)
+        # Agenda preview card
         agenda = Card()
         ag = QVBoxLayout(agenda)
         ag.setContentsMargins(10, 10, 10, 10)
@@ -110,6 +141,37 @@ class SchedulerLeftPanel(QWidget):
 
         self._refresh_agenda()
 
+    def _on_calendar_changed(self) -> None:
+        self._state.set_selected_date(self._cal.selectedDate())
+        self._refresh_agenda()
+
+    def _on_state_date_changed(self, qd: QDate) -> None:
+        if qd != self._cal.selectedDate():
+            self._cal.blockSignals(True)
+            try:
+                self._cal.setSelectedDate(qd)
+            finally:
+                self._cal.blockSignals(False)
+        self._refresh_agenda()
+
+    def _on_add(self) -> None:
+        qd = self._state.selected_date()
+        title = (self._title.text() or "").strip()
+        if not title:
+            QMessageBox.information(self, "Missing title", "Please enter a title.")
+            return
+
+        if self._start.time() >= self._end.time():
+            QMessageBox.information(self, "Invalid time range", "End time must be after start time.")
+            return
+
+        try:
+            self._ctl.create_adhoc(qd, title, self._start.time(), self._end.time())
+            self._title.setText("")
+            self._state.notify_data_changed()
+        except Exception as e:
+            QMessageBox.warning(self, "Create failed", f"{type(e).__name__}: {e}")
+
     def _refresh_agenda(self) -> None:
         while self._agenda_lay.count():
             item = self._agenda_lay.takeAt(0)
@@ -118,7 +180,7 @@ class SchedulerLeftPanel(QWidget):
                 w.deleteLater()
 
         try:
-            rows = self._ctl.list_entries_for_date(self._cal.selectedDate())
+            vms = self._ctl.list_entries_for_date(self._state.selected_date())
         except Exception as e:
             err = QLabel(
                 "Scheduler failed to load agenda.\n\n"
@@ -130,7 +192,7 @@ class SchedulerLeftPanel(QWidget):
             self._agenda_lay.addStretch(1)
             return
 
-        if not rows:
+        if not vms:
             lbl = QLabel("Nothing scheduled for this day.")
             lbl.setObjectName("MetaCaption")
             lbl.setWordWrap(True)
@@ -138,7 +200,9 @@ class SchedulerLeftPanel(QWidget):
             self._agenda_lay.addStretch(1)
             return
 
-        for txt in rows[:12]:
+        for vm in vms[:12]:
+            t = self._ctl.format_time_range(vm.start_dt, vm.end_dt)
+            txt = f"{t} · {vm.title}" if t else vm.title
             lbl = QLabel(txt)
             lbl.setWordWrap(True)
             self._agenda_lay.addWidget(lbl)

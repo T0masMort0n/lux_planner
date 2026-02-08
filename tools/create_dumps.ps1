@@ -16,35 +16,117 @@ if ((Split-Path -Leaf $SCRIPT_DIR).ToLowerInvariant() -eq "tools") {
   $ROOT = $SCRIPT_DIR
 }
 
-$DUMPS_DIR = Join-Path $ROOT "dumps"
+# Outputs must be written OUTSIDE repo root to prevent re-ingestion.
+$REPO_PARENT = Split-Path -Parent $ROOT
+$DUMPS_ROOT  = Join-Path $REPO_PARENT "dumps"
+$DUMPS_DIR   = Join-Path $DUMPS_ROOT "lux_planner"
 
 # Create dumps folder if it doesn't exist
 if (-not (Test-Path -LiteralPath $DUMPS_DIR)) {
-  New-Item -ItemType Directory -Path $DUMPS_DIR | Out-Null
+  New-Item -ItemType Directory -Path $DUMPS_DIR -Force | Out-Null
 }
 
 $OUT_DIRS = Join-Path $DUMPS_DIR "PROJECT_DIRECTORIES.txt"
 $OUT_DUMP = Join-Path $DUMPS_DIR "PROJECT_DUMP.txt"
 
 Write-Host "ROOT resolved to: $ROOT"
-Write-Host "DUMPS_DIR: $DUMPS_DIR"
+Write-Host "DUMPS_DIR (outside repo): $DUMPS_DIR"
 
+# ---------------------------
+# Allowlist (SSOT-friendly)
+# ---------------------------
 
+# Allowed top-level directories (recursive)
+$ALLOW_DIR_NAMES = @("src", "assets", "tests")
+
+# Allowed explicit tool files
+$TOOLS_DIR = Join-Path $ROOT "tools"
+$ALLOW_TOOL_FILES = @(
+  (Join-Path $ROOT "tools\create_dumps.ps1"),
+  (Join-Path $ROOT "tools\dump_config.json")
+)
+
+# Allowed root-level config files (explicit + patterns)
+$ALLOW_ROOT_FILES_EXACT = @(
+  (Join-Path $ROOT "pyproject.toml"),
+  (Join-Path $ROOT "poetry.lock")
+)
+
+function _NormFull([string]$p) {
+  return ([System.IO.Path]::GetFullPath($p)).TrimEnd('\','/').ToLowerInvariant()
+}
+
+# Precompute allowed dir prefixes (existing ones only)
+$ALLOW_DIR_PREFIXES = @()
+foreach ($d in $ALLOW_DIR_NAMES) {
+  $full = Join-Path $ROOT $d
+  if (Test-Path -LiteralPath $full -PathType Container) {
+    $ALLOW_DIR_PREFIXES += (_NormFull $full) + "\"
+  }
+}
+$TOOLS_DIR_NORM = (_NormFull $TOOLS_DIR) + "\"
+
+function Should-IncludeDirFull([string]$fullPath) {
+  $p = (_NormFull $fullPath) + "\"
+
+  # Allow recursion under src/assets/tests
+  foreach ($pref in $ALLOW_DIR_PREFIXES) {
+    if ($p.StartsWith($pref)) { return $true }
+  }
+
+  # Allow tools/ only as a container so we can include specific tool files
+  if ($p.StartsWith($TOOLS_DIR_NORM)) { return $true }
+
+  return $false
+}
+
+function Should-IncludeFileFull([string]$fullPath) {
+  $p = (_NormFull $fullPath)
+
+  # Allow any file under src/assets/tests
+  foreach ($pref in $ALLOW_DIR_PREFIXES) {
+    if (($p + "\").StartsWith($pref)) { return $true }
+  }
+
+  # Allow explicit tool files only
+  foreach ($tf in $ALLOW_TOOL_FILES) {
+    if ($p -eq (_NormFull $tf)) { return $true }
+  }
+
+  # Allow exact root config files
+  foreach ($rf in $ALLOW_ROOT_FILES_EXACT) {
+    if ($p -eq (_NormFull $rf)) { return $true }
+  }
+
+  # Allow requirements*.txt / requirements*.in at repo root only
+  $rootNorm = (_NormFull $ROOT) + "\"
+  if ($p.StartsWith($rootNorm)) {
+    $leaf = Split-Path -Leaf $p
+    $ll = $leaf.ToLowerInvariant()
+    if ($ll -like "requirements*.txt" -or $ll -like "requirements*.in") { return $true }
+  }
+
+  return $false
+}
+
+# Still exclude common junk dirs even inside allowed roots (determinism + safety)
 function Should-ExcludeDir([string]$name) {
+  $n = $name.ToLowerInvariant()
   $exclude = @(
     ".git", ".idea", ".vscode",
-    "__pycache__", ".pytest_cache", ".mypy_cache",
+    "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".cache",
     ".venv", "venv", "env",
-    "node_modules", "dist", "build", ".ruff_cache"
+    "dist", "build", ".tox", ".eggs", "node_modules", "coverage",
+    ".history", "old",
+    "dumps", "dump", "snapshots", "snapshot",
+    "archive", "archives", "backup", "backups", ".backup"
   )
-  return $exclude -contains $name
+  return $exclude -contains $n
 }
 
 function Should-ExcludeFile([string]$name) {
-  $exclude = @(
-    "PROJECT_DUMP.txt", "PROJECT_DIRECTORIES.txt"
-  )
-  return $exclude -contains $name
+  $n = $name.ToLowerInvariant()
+  return @("project_dump.txt", "project_directories.txt") -contains $n
 }
 
 function Should-SkipDumpFileByExt([string]$fullPath) {
@@ -54,7 +136,8 @@ function Should-SkipDumpFileByExt([string]$fullPath) {
     ".mp3",".mp4",".mov",".mkv",".wav",".flac",
     ".zip",".7z",".rar",".exe",".dll",".pdb",
     ".pdf",
-    ".db",".sqlite",".sqlite3"
+    ".db",".sqlite",".sqlite3",
+    ".ttf",".otf",".woff",".woff2",".eot"
   )
   foreach ($ext in $skipExt) {
     if ($lower.EndsWith($ext)) { return $true }
@@ -72,11 +155,11 @@ function Is-ProbablyBinary([byte[]]$bytes) {
 
 function Get-ChildrenSorted([string]$path) {
   $dirs  = @(Get-ChildItem -LiteralPath $path -Force -Directory |
-    Where-Object { -not (Should-ExcludeDir $_.Name) } |
+    Where-Object { (Should-IncludeDirFull $_.FullName) -and (-not (Should-ExcludeDir $_.Name)) } |
     Sort-Object Name)
 
   $files = @(Get-ChildItem -LiteralPath $path -Force -File |
-    Where-Object { -not (Should-ExcludeFile $_.Name) } |
+    Where-Object { (Should-IncludeFileFull $_.FullName) -and (-not (Should-ExcludeFile $_.Name)) } |
     Sort-Object Name)
 
   return @($dirs + $files)

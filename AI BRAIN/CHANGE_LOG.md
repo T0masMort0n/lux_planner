@@ -98,3 +98,11 @@ This locks Scheduler into the platform’s system layer:
 **Signed:**  
 Systems Designer Agent (Architecture Review)  
 Coder Agent (Implementation)
+
+
+### Change: Scheduler MVP Loop Activation
+Scheduler MVP loop validated as system orchestration surface.  
+Canonical type `adhoc` established.  
+Same-day-only reschedule confirmed.
+
+**Signed:** Systems Designer Agent

@@ -184,3 +184,54 @@ This surface must remain:
 - Feature-agnostic
 - DB-lifecycle neutral (bootstrap-owned)
 - Single-registry consistent
+
+## THEME PIPELINE SSOT (SYSTEM-OWNED)
+
+Theme + typography application is a **single-source-of-truth (SSOT)** system pipeline. No other module may apply QSS, resolve typography tokens, or call `app.setStyleSheet(...)`.
+
+### Canonical Module Path (One True Theme Module)
+- `src/lux/ui/qt/theme.py` (import path: `lux.ui.qt.theme`)
+
+Any duplicate `theme.py` or alternate `apply_theme_*` helpers are prohibited and must be removed to avoid import ambiguity.
+
+### Canonical API (Authoritative Signature)
+`apply_theme_by_name(app, theme_name, font_scale=1.0, font_scheme_id=None)`
+
+### Canonical Call Sites (Who May Call It)
+Allowed callers:
+- **System bootstrap / composition root** (initial theme application)
+- **System settings change handler** (re-apply theme on theme/scheme/scale changes)
+
+Disallowed callers:
+- Feature modules
+- Feature UI widgets
+- Any non-system layer code
+
+### Pipeline Order (Binding)
+1) Register bundled fonts (idempotent; once per app lifecycle)
+2) Resolve theme name (fallback to default)
+3) Load theme QSS
+4) Apply font scale transform (bounded; fail-soft)
+5) Load font scheme mapping (sanitized scheme id; fail-soft)
+6) Substitute typography tokens **only inside** `font-family: var(--font-*)` declarations (bounded substitution)
+7) Apply stylesheet: `app.setStyleSheet(qss)`
+
+### Ban List (Hard Prohibitions)
+- No other `apply_theme_by_name` definitions anywhere else
+- No other module calling `QApplication.setStyleSheet(...)` besides the canonical theme module
+- No feature-layer font stack hardcoding intended to vary by scheme
+- No reliance on Qt runtime support for CSS custom properties (`var(...)`) without substitution
+
+### Fail-Soft Requirements
+- Missing theme file → apply fallback theme (or empty QSS) and continue startup
+- Missing/invalid scheme JSON → continue with default mapping (or leave tokens unresolved) and continue startup
+- Bundled font registration failures → log and continue (no startup block)
+
+### Governance
+Any change to:
+- canonical module path,
+- canonical API signature,
+- substitution boundaries,
+- theme application ordering,
+requires Systems Designer approval.
+

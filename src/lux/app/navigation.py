@@ -7,12 +7,14 @@ from PySide6.QtWidgets import QWidget
 
 from lux.app.services import SystemServices
 
+
 @dataclass(frozen=True)
 class AppModuleSpec:
     key: str                 # "journal"
     title: str               # "Lux Journal"
     make_left_panel: Callable[[SystemServices], QWidget]
     make_right_view: Callable[[SystemServices], QWidget]
+
 
 def build_default_registry() -> list[AppModuleSpec]:
     # Import here to avoid import cycles at startup.
@@ -21,9 +23,8 @@ def build_default_registry() -> list[AppModuleSpec]:
     from lux.features.journal.ui.panel import JournalLeftPanel
     from lux.features.journal.ui.view import JournalRightView
 
-    # Scheduler
-    from lux.features.scheduler.ui.panel import SchedulerLeftPanel
-    from lux.features.scheduler.ui.day_view import SchedulerDayView
+    # Scheduler (feature-owned shared state is encapsulated inside the feature factory)
+    from lux.features.scheduler.ui.factories import make_scheduler_factories
 
     # Meals
     from lux.features.meals.ui.panel import MealsLeftPanel
@@ -41,6 +42,8 @@ def build_default_registry() -> list[AppModuleSpec]:
     from lux.features.todo.ui.panel import TodoLeftPanel
     from lux.features.todo.ui.view import TodoRightView
 
+    scheduler_left_factory, scheduler_right_factory = make_scheduler_factories()
+
     return [
         AppModuleSpec(
             key="journal",
@@ -51,8 +54,8 @@ def build_default_registry() -> list[AppModuleSpec]:
         AppModuleSpec(
             key="scheduler",
             title="Lux Scheduler",
-            make_left_panel=lambda services: SchedulerLeftPanel(services.scheduler_service),
-            make_right_view=lambda services: SchedulerDayView(services.scheduler_service),
+            make_left_panel=scheduler_left_factory,
+            make_right_view=scheduler_right_factory,
         ),
         AppModuleSpec(
             key="meals",

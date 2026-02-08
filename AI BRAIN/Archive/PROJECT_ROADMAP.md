@@ -9,9 +9,7 @@ This roadmap defines system evolution phases. Agents align work to the current p
 ✔ AppShell layout  
 ✔ Overlay navigation  
 ✔ Theme system  
-✔ Feature registry
-✔ Scheduler MVP Loop validated as system surface
-  
+✔ Feature registry  
 ✔ Modular project structure  
 
 **Now includes:**

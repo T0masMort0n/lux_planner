@@ -65,6 +65,23 @@ Core supports both System and Features without introducing UI behavior.
 - src/lux/system/sharing/*
 - src/lux/system/packs/*
 - assets/themes/*.qss
+- assets/font_schemes/*.json  # typography schemes (token → font-family stacks)
+
+### Scheduler System Spine (System Interaction Surface)
+
+Scheduler is classified as a system-level orchestration surface.
+
+System layer responsibilities:
+- Scheduling data service
+- Provider registry
+- Cross-feature scheduling contracts
+
+Features:
+- Must use system scheduler service
+- Must not implement scheduling write paths
+- Must not import other features for scheduling
+
+This ensures scheduling remains platform infrastructure rather than feature coupling.
 
 ### Core Layer
 - src/lux/core/*
@@ -161,6 +178,15 @@ Sharing is copy-first. No automatic propagation.
 - Systems Designer owns layout structure and UI frameworks
 - Features may only consume tokens, never define their own styles
 
+### Typography Schemes (Tokens + Font Packs)
+
+Typography schemes are system-owned **mechanism** + visual-owned **content**:
+
+- System defines typography token names and applies schemes during QSS application.
+- Visual Designer provides scheme JSON mappings in `assets/font_schemes/*.json`.
+- Theme QSS must reference tokens (e.g., `font-family: var(--font-body);`) and must not hardcode scheme-specific stacks.
+- The system applies schemes via Qt-safe substitution limited to `font-family` declarations (no global replacements).
+
 ---
 
 ## UX Consistency Ownership
@@ -185,3 +211,4 @@ System layer ensures:
 - Scalable expansion
 - Low cognitive load
 - Long-term maintainability
+

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sys
 
 from PySide6.QtWidgets import QApplication
@@ -12,7 +13,10 @@ from lux.core.settings.store import SettingsStore
 from lux.data.db import ensure_db_ready
 from lux.data.repositories.schedule_repo import ScheduledEntryRepo
 from lux.ui.qt.main_window import MainWindow
-from lux.ui.qt.theme import apply_theme_by_name
+import lux.ui.qt.theme as theme_mod
+
+log = logging.getLogger(__name__)
+
 
 
 def run_app() -> None:
@@ -32,14 +36,22 @@ def run_app() -> None:
     services = SystemServices(
         scheduler_service=scheduler_service,
     )
-
-    # Apply theme once we have settings + app
-    apply_theme_by_name(
-        app=app,
-        theme_name=settings.get_theme(),
-        font_scale=settings.get_font_scale(),
-        font_scheme_id=settings.get_font_scheme_id(),
-    )
+    # Apply theme once we have settings + app (SSOT path)
+    try:
+        theme_mod.apply_theme_by_name(
+            app=app,
+            theme_name=settings.get_theme(),
+            font_scale=settings.get_font_scale(),
+            font_scheme_id=settings.get_font_scheme_id(),
+        )
+    except Exception:
+        # Exception-path only diagnostics (no new mechanisms; log only)
+        log.exception("Theme application failed")
+        log.error("THEME_MODULE_PATH: %s", getattr(theme_mod, "__file__", "<??>"))
+        fn = getattr(theme_mod, "apply_theme_by_name", None)
+        log.error("THEME_APPLY_FN: %r", fn)
+        log.error("THEME_APPLY_CODE: %r", getattr(fn, "__code__", None))
+        raise
 
     registry = build_default_registry()
 

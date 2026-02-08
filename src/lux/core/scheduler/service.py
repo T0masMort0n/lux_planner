@@ -48,7 +48,7 @@ class SchedulerService:
         end: str | datetime | date,
         title_cache: str | None = None,
         notes_cache: str | None = None,
-    ) -> str:
+    ) -> int:
         kind = str(item_kind or "").strip()
         if not kind:
             raise ValueError("item_kind is required")
@@ -62,8 +62,9 @@ class SchedulerService:
         if not start_iso or not end_iso:
             raise ValueError("start/end are required")
 
-        if start_iso > end_iso:
-            raise ValueError("start must be <= end")
+        # Contract: strict range validity (end must be after start)
+        if start_iso >= end_iso:
+            raise ValueError("end must be after start")
 
         entry_id = self._repo.create(
             {
@@ -75,28 +76,32 @@ class SchedulerService:
                 "notes_cache": notes_cache,
             }
         )
-        return entry_id
+        return int(entry_id)
 
     def reschedule(
         self,
-        entry_id: str,
+        entry_id: int | str,
         new_start: str | datetime | date,
         new_end: str | datetime | date,
     ) -> None:
-        eid = str(entry_id or "").strip()
-        if not eid:
+        try:
+            eid = int(entry_id)
+        except Exception:
             raise ValueError("entry_id is required")
 
         start_iso = _to_iso(new_start)
         end_iso = _to_iso(new_end)
-        if start_iso > end_iso:
-            raise ValueError("new_start must be <= new_end")
+
+        # Contract: strict range validity (end must be after start)
+        if start_iso >= end_iso:
+            raise ValueError("new_end must be after new_start")
 
         self._repo.update_time(eid, start_iso, end_iso)
 
-    def archive(self, entry_id: str) -> None:
-        eid = str(entry_id or "").strip()
-        if not eid:
+    def archive(self, entry_id: int | str) -> None:
+        try:
+            eid = int(entry_id)
+        except Exception:
             raise ValueError("entry_id is required")
         self._repo.archive(eid)
 
@@ -109,8 +114,11 @@ class SchedulerService:
     ) -> list[ScheduledEntryRow]:
         start_iso = _to_iso(start)
         end_iso = _to_iso(end)
+
+        # For listing, inclusive ranges are acceptable but keep bounded and ordered.
         if start_iso > end_iso:
             raise ValueError("start must be <= end")
+
         return self._repo.list_for_range(
             start_iso,
             end_iso,

@@ -17,7 +17,7 @@ from lux.core.settings.store import SettingsStore
 from lux.core.settings.schema import THEMES_AVAILABLE
 from lux.ui.qt.app_shell import AppShell
 from lux.ui.qt.settings_view import SettingsLeftPanel, SettingsRightView, SettingsCallbacks
-from lux.ui.qt.theme import apply_theme_by_name
+import lux.ui.qt.theme as theme_mod
 from lux.ui.qt.widgets.buttons import LuxButton
 
 
@@ -136,7 +136,7 @@ class MainWindow(QMainWindow):
         return w
 
     def _apply_theme(self) -> None:
-        apply_theme_by_name(
+        theme_mod.apply_theme_by_name(
             self._app,
             theme_name=self._settings.get_theme(),
             font_scale=self._settings.get_font_scale(),
