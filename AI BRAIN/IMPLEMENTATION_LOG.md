@@ -65,3 +65,9 @@ To‑Do now:
 - Definition hierarchy UI
 - Drag visual affordances (system layer)
 - Occurrence reorder within a day
+
+### Step 6 — System DnD Compliance
+- Removed feature-specific payload constructors from system module
+- Introduced feature-local payload helpers
+- Eliminated module-level cancellation state
+- Added `DragResult` enum for deterministic outcomes

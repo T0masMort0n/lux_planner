@@ -88,3 +88,63 @@ Dump generation is now SSOT-friendly and runtime-scoped:
 Verification:
 - No `==== FILE: AI BRAIN\...` entries in PROJECT_DUMP.txt.
 - No `AI BRAIN` substring present in the dump output.
+
+## 2026-02-08 — To-Do Phase-1 System Stabilization
+
+**Owner:** Systems Designer Agent  
+**Signed By:** Systems Designer Agent + Product Driver  
+
+### Context
+To-Do feature required stabilization to meet System Interaction Contracts and lifecycle ownership rules. Prior implementation violated system DI patterns and lacked system-owned interaction plumbing.
+
+### Decisions
+
+#### 1. Definition-Only Hierarchy (System Contract Extension)
+- Task hierarchy lives exclusively on `task_definitions.parent_task_id`.
+- Occurrences do NOT own hierarchy.
+- Parent completion is derived from descendant occurrences **within the current panel query scope**.
+- Parent completion may legitimately differ across panels.
+
+#### 2. State-Changing Drop Contract
+- System Drag & Drop is the only DnD mechanism.
+- Drops onto date buckets mutate a **single canonical field**:
+  - Occurrence → update `due_date`
+  - Definition → create occurrence
+- Drop targets must resolve to a specific date (no fuzzy buckets).
+
+#### 3. Lifecycle Ownership Enforcement
+- Feature-owned DB initialization removed from To-Do.
+- Bootstrap is sole DB lifecycle owner.
+- Dependency chain: bootstrap → repositories → service → SystemServices → UI.
+
+#### 4. System Drag & Drop Framework Introduced
+Module: `src/lux/ui/qt/dragdrop.py`
+
+Provides:
+- Typed payload contract
+- Single decode path
+- Session-local cancellation
+- Deterministic `DragResult`
+
+No feature logic inside.
+
+---
+
+## 2026-02-08 — AI Workflow Architecture Decision
+
+**Owner:** Systems Designer Agent + Product Driver  
+
+### Decision
+AI roles now split by capability:
+
+| AI Mode | Purpose |
+|--------|---------|
+| **GPT-5.2** | Systems design, architecture decisions, UX logic |
+| **GPT-5.1 (repo access)** | Code review, integration verification, wiring validation |
+
+### Why
+Repo visibility improves system integrity enforcement, but strategic reasoning remains better handled by 5.2.
+
+---
+
+**Status:** System stabilized for Phase-1 To-Do acceptance.

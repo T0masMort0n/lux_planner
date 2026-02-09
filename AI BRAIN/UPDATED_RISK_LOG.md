@@ -56,3 +56,9 @@
 - Add a lightweight regression test/checklist for scheme application
 
 **Signed:** Systems Designer Agent
+
+### Risk: Model Context Mismatch During Reviews
+**Date:** 2026-02-08  
+**Description:** Reviews performed without repo visibility may miss integration issues.  
+**Mitigation:** Use GPT-5.1 with repo access for code reviews.  
+**Signed:** Systems Designer Agent

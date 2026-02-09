@@ -98,3 +98,8 @@ Known interruption risks addressed:
 ✔ Lifecycle ownership corrected  
 ✔ Interaction framework centralized  
 ✔ No cross‑feature coupling introduced
+
+## AI Workflow Update
+- Established split workflow:
+  - GPT-5.2 for design & decision-making
+  - GPT-5.1 for repo-level code verification

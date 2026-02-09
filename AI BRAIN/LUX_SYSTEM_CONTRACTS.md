@@ -71,3 +71,12 @@ Theme and typography application is a single-source-of-truth pipeline. Only the 
 
 ## GOVERNANCE
 These contracts override feature decisions. Systems Designer approval required for structural changes.
+
+## Appendix — Task Hierarchy & State-Changing Drop Contract
+
+- Hierarchy field: `task_definitions.parent_task_id`
+- Completion derived by panel query scope
+- System DnD only; no feature drag systems
+- Typed payload discriminator required
+- Session-local cancellation only
+- Drops mutate due_date or create occurrence

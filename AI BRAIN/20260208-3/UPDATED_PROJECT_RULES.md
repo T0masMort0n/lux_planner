@@ -243,3 +243,16 @@ After accepted changes, update:
 - IMPLEMENTATION_LOG
 - RISK_LOG
 - CHANGE_LOG
+
+## 12) AI Model Usage Protocol (NEW)
+
+To improve system integrity and reduce blind spots:
+
+| Task Type | Model |
+|-----------|------|
+| Architecture, contracts, UX logic | GPT-5.2 |
+| Code review & repo-wide verification | GPT-5.1 (with repo access) |
+
+Rules:
+- Repo-visible reviews must reference actual code paths, not assumptions.
+- Strategic decisions remain model-agnostic and governed by contracts.

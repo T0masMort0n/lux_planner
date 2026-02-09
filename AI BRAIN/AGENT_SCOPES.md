@@ -188,3 +188,29 @@ Does NOT:
 | Complexity control | Simplicity Auditor |
 | Documentation | Documentation Agent |
 | Workflow sequencing | Product Driver Advisor |
+
+## AI Workflow Integration
+
+Systems Designer may operate across GPT-5.2 and GPT-5.1.
+
+- GPT-5.2 = design authority
+- GPT-5.1 = code verification assistant
+
+Model differences do not change system contracts.
+
+---
+# Documentation Auditor (External Role)
+
+The Documentation role is no longer an internal agent participating in daily development.
+
+**Status:** External / Periodic
+**Purpose:** Structural audit and compression of AI_BRAIN documentation.
+
+**Responsibilities:**
+- Identify redundancy across AI_BRAIN files
+- Suggest consolidation where safe
+- Improve clarity and navigability
+- Do NOT introduce new system decisions
+- Do NOT modify contracts or rules
+
+---
