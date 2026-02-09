@@ -1,0 +1,397 @@
+﻿==============================
+AI CONTEXT SNAPSHOT
+==============================
+Timestamp : 2026-02-08 18:58:00 -05:00
+Repo root : lux_planner/
+Branch    : main
+HEAD hash : 4fb6c7a9a7d64403473fb1556698157792b02ec5
+Repo state: DIRTY (uncommitted changes present)
+
+==============================
+REPO MAP (git ls-files; relative to lux_planner/)
+==============================
+.gitignore
+AI BRAIN/20260206 into 07/ARCHITECTURE_NOTES.md
+AI BRAIN/20260206 into 07/CHANGE_LOG.md
+AI BRAIN/20260206 into 07/IMPLEMENTATION_LOG.md
+AI BRAIN/20260206 into 07/LUX_SYSTEM_CONTRACTS.md
+AI BRAIN/20260206 into 07/PROJECT_ARCHITECTURE.md
+AI BRAIN/20260206 into 07/PROJECT_ROADMAP.md
+AI BRAIN/20260206 into 07/RISK_LOG.md
+AI BRAIN/20260208/UPDATED_AGENT_SCOPES.md
+AI BRAIN/20260208/UPDATED_ARCHITECTURE_NOTES.md
+AI BRAIN/20260208/UPDATED_CHANGE_LOG.md
+AI BRAIN/20260208/UPDATED_IMPLEMENTATION_LOG.md
+AI BRAIN/20260208/UPDATED_LUX_SYSTEM_CONTRACTS.md
+AI BRAIN/20260208/UPDATED_PROJECT_ROADMAP.md
+AI BRAIN/20260208/UPDATED_PROJECT_RULES.md
+AI BRAIN/20260208/UPDATED_RISK_LOG.md
+AI BRAIN/LUX_SYSTEM_CONTRACTS.md
+AI BRAIN/UPDATED_AGENT_SCOPES.md
+AI BRAIN/UPDATED_ARCHITECTURE_NOTES.md
+AI BRAIN/UPDATED_CHANGE_LOG.md
+AI BRAIN/UPDATED_IMPLEMENTATION_LOG.md
+AI BRAIN/UPDATED_PROJECT_ROADMAP.md
+AI BRAIN/UPDATED_PROJECT_RULES.md
+AI BRAIN/UPDATED_RISK_LOG.md
+IMPORT_INDEX.txt
+LuxPlanner.spec
+REPO_MAP.txt
+assets/font_schemes/bundled_core.json
+assets/font_schemes/compact.json
+assets/font_schemes/editorial.json
+assets/font_schemes/friendly.json
+assets/font_schemes/modern_clean.json
+assets/fonts/IBM_plex_sans/IBMPlexSans-Italic-VariableFont_wdth,wght.ttf
+assets/fonts/IBM_plex_sans/IBMPlexSans-VariableFont_wdth,wght.ttf
+assets/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf
+assets/fonts/inter/Inter-VariableFont_opsz,wght.ttf
+assets/fonts/manrope/Manrope-VariableFont_wght.ttf
+assets/fonts/nunito_sans/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf
+assets/fonts/nunito_sans/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
+assets/icons/app.icns
+assets/icons/app.ico
+assets/icons/app.png
+assets/themes/cloudy.qss
+assets/themes/graphite.qss
+assets/themes/obsidian.qss
+assets/themes/sunkissed.qss
+compile_exe.ps1
+how --stat --pretty=medium
+identifier.sqlite
+pyproject.toml
+run.ps1
+src/lux/__init__.py
+src/lux/__main__.py
+src/lux/app/__init__.py
+src/lux/app/bootstrap.py
+src/lux/app/config.py
+src/lux/app/lifecycle.py
+src/lux/app/navigation.py
+src/lux/app/services.py
+src/lux/core/__init__.py
+src/lux/core/errors.py
+src/lux/core/logging.py
+src/lux/core/scheduler/__init__.py
+src/lux/core/scheduler/provider_registry.py
+src/lux/core/scheduler/service.py
+src/lux/core/settings/__init__.py
+src/lux/core/settings/schema.py
+src/lux/core/settings/store.py
+src/lux/core/time.py
+src/lux/core/types.py
+src/lux/data/__init__.py
+src/lux/data/db.py
+src/lux/data/migrations/0001_init.sql
+src/lux/data/migrations/0002_journal.sql
+src/lux/data/migrations/0003_tasks.sql
+src/lux/data/migrations/0004_schedule.sql
+src/lux/data/migrations/0005_task_hierarchy.sql
+src/lux/data/migrations/__init__.py
+src/lux/data/models/__init__.py
+src/lux/data/models/journal.py
+src/lux/data/models/schedule.py
+src/lux/data/models/tasks.py
+src/lux/data/repositories/__init__.py
+src/lux/data/repositories/journal_repo.py
+src/lux/data/repositories/schedule_repo.py
+src/lux/data/repositories/tasks_repo.py
+src/lux/features/__init__.py
+src/lux/features/exercise/__init__.py
+src/lux/features/exercise/ui/__init__.py
+src/lux/features/exercise/ui/controller.py
+src/lux/features/exercise/ui/panel.py
+src/lux/features/exercise/ui/view.py
+src/lux/features/goals/__init__.py
+src/lux/features/goals/domain.py
+src/lux/features/goals/repo.py
+src/lux/features/goals/service.py
+src/lux/features/goals/ui/__init__.py
+src/lux/features/goals/ui/controller.py
+src/lux/features/goals/ui/panel.py
+src/lux/features/goals/ui/view.py
+src/lux/features/journal/__init__.py
+src/lux/features/journal/domain.py
+src/lux/features/journal/repo.py
+src/lux/features/journal/service.py
+src/lux/features/journal/ui/__init__.py
+src/lux/features/journal/ui/controller.py
+src/lux/features/journal/ui/panel.py
+src/lux/features/journal/ui/view.py
+src/lux/features/meals/__init__.py
+src/lux/features/meals/domain.py
+src/lux/features/meals/ui/__init__.py
+src/lux/features/meals/ui/controller.py
+src/lux/features/meals/ui/panel.py
+src/lux/features/meals/ui/view.py
+src/lux/features/scheduler/__init__.py
+src/lux/features/scheduler/domain.py
+src/lux/features/scheduler/repo.py
+src/lux/features/scheduler/service.py
+src/lux/features/scheduler/ui/__init__.py
+src/lux/features/scheduler/ui/controller.py
+src/lux/features/scheduler/ui/day_view.py
+src/lux/features/scheduler/ui/factories.py
+src/lux/features/scheduler/ui/month_view.py
+src/lux/features/scheduler/ui/panel.py
+src/lux/features/scheduler/ui/state.py
+src/lux/features/scheduler/ui/week_view.py
+src/lux/features/todo/__init__.py
+src/lux/features/todo/domain.py
+src/lux/features/todo/repo.py
+src/lux/features/todo/service.py
+src/lux/features/todo/ui/__init__.py
+src/lux/features/todo/ui/controller.py
+src/lux/features/todo/ui/panel.py
+src/lux/features/todo/ui/view.py
+src/lux/ui/__init__.py
+src/lux/ui/qt/__init__.py
+src/lux/ui/qt/app_shell.py
+src/lux/ui/qt/dragdrop.py
+src/lux/ui/qt/main_window.py
+src/lux/ui/qt/settings_view.py
+src/lux/ui/qt/styles/__init__.py
+src/lux/ui/qt/styles/constants.py
+src/lux/ui/qt/styles/qss_build.py
+src/lux/ui/qt/styles/tokens.py
+src/lux/ui/qt/theme.py
+src/lux/ui/qt/widgets/__init__.py
+src/lux/ui/qt/widgets/buttons.py
+src/lux/ui/qt/widgets/cards.py
+src/lux/ui/qt/widgets/dialogs.py
+src/lux/ui/qt/widgets/splitters.py
+src/lux/ui/qt/widgets/typography.py
+tests/integration/test_repos_sqlite.py
+tests/unit/__init__.py
+tests/unit/test_journal_service.py
+tests/unit/test_scheduler_domain.py
+tests/unit/test_settings.py
+token.txt
+tools/ dump_config.json
+tools/ verify_env.ps1
+tools/AI_CONTEXT_SNAPSHOT.txt
+tools/backup_and_push.ps1
+tools/create_dumps.ps1
+tools/create_dumps.sh
+tools/generate_project_directories.ps1
+tools/generate_project_dump.ps1
+tools/generate_snapshot.ps1
+
+==============================
+IMPORT INDEX (git grep; relative to lux_planner/)
+==============================
+src/lux/__main__.py:1:from lux.app.bootstrap import run_app
+src/lux/app/bootstrap.py:1:from __future__ import annotations
+src/lux/app/bootstrap.py:3:import logging
+src/lux/app/bootstrap.py:4:import sys
+src/lux/app/bootstrap.py:6:from PySide6.QtWidgets import QApplication
+src/lux/app/bootstrap.py:8:from lux.app.navigation import build_default_registry
+src/lux/app/bootstrap.py:9:from lux.app.services import SystemServices
+src/lux/app/bootstrap.py:10:from lux.core.scheduler.provider_registry import SchedulerProviderRegistry
+src/lux/app/bootstrap.py:11:from lux.core.scheduler.service import SchedulerService
+src/lux/app/bootstrap.py:12:from lux.core.settings.store import SettingsStore
+src/lux/app/bootstrap.py:13:from lux.data.db import ensure_db_ready
+src/lux/app/bootstrap.py:14:from lux.data.repositories.schedule_repo import ScheduledEntryRepo
+src/lux/app/bootstrap.py:15:from lux.data.repositories.tasks_repo import TasksRepository
+src/lux/app/bootstrap.py:16:from lux.features.todo.repo import TodoRepo
+src/lux/app/bootstrap.py:17:from lux.features.todo.service import TodoService
+src/lux/app/bootstrap.py:18:from lux.ui.qt.main_window import MainWindow
+src/lux/app/bootstrap.py:19:import lux.ui.qt.theme as theme_mod
+src/lux/app/config.py:1:from __future__ import annotations
+src/lux/app/config.py:3:import os
+src/lux/app/config.py:4:from pathlib import Path
+src/lux/app/navigation.py:1:from __future__ import annotations
+src/lux/app/navigation.py:3:from dataclasses import dataclass
+src/lux/app/navigation.py:4:from typing import Callable
+src/lux/app/navigation.py:6:from PySide6.QtWidgets import QWidget
+src/lux/app/navigation.py:8:from lux.app.services import SystemServices
+src/lux/app/services.py:1:from __future__ import annotations
+src/lux/app/services.py:3:from dataclasses import dataclass
+src/lux/app/services.py:5:from lux.core.scheduler.service import SchedulerService
+src/lux/app/services.py:6:from lux.features.todo.service import TodoService
+src/lux/core/scheduler/__init__.py:1:from .service import SchedulerService
+src/lux/core/scheduler/__init__.py:2:from .provider_registry import SchedulerProviderRegistry, SchedulerProvider
+src/lux/core/scheduler/provider_registry.py:1:from __future__ import annotations
+src/lux/core/scheduler/provider_registry.py:3:from typing import Protocol
+src/lux/core/scheduler/service.py:1:from __future__ import annotations
+src/lux/core/scheduler/service.py:3:from datetime import date, datetime
+src/lux/core/scheduler/service.py:4:from typing import Any
+src/lux/core/scheduler/service.py:6:from lux.core.scheduler.provider_registry import SchedulerProviderRegistry
+src/lux/core/scheduler/service.py:7:from lux.data.models.schedule import ScheduledEntryRow
+src/lux/core/scheduler/service.py:8:from lux.data.repositories.schedule_repo import ScheduledEntryRepo
+src/lux/core/settings/store.py:1:from __future__ import annotations
+src/lux/core/settings/store.py:3:import json
+src/lux/core/settings/store.py:4:import re
+src/lux/core/settings/store.py:5:from dataclasses import dataclass
+src/lux/core/settings/store.py:6:from pathlib import Path
+src/lux/core/settings/store.py:8:from lux.app.config import app_data_dir
+src/lux/core/settings/store.py:9:from lux.core.settings.schema import THEME_DEFAULT, THEMES_AVAILABLE, FONT_SCHEME_DEFAULT
+src/lux/data/db.py:1:from __future__ import annotations
+src/lux/data/db.py:3:import sqlite3
+src/lux/data/db.py:4:from pathlib import Path
+src/lux/data/db.py:5:from typing import Iterable
+src/lux/data/db.py:7:from lux.app.config import app_data_dir
+src/lux/data/models/schedule.py:1:from __future__ import annotations
+src/lux/data/models/schedule.py:3:from dataclasses import dataclass
+src/lux/data/models/schedule.py:4:from datetime import datetime
+src/lux/data/models/schedule.py:5:from typing import Optional
+src/lux/data/models/tasks.py:1:from __future__ import annotations
+src/lux/data/models/tasks.py:3:from dataclasses import dataclass
+src/lux/data/models/tasks.py:4:from datetime import datetime
+src/lux/data/models/tasks.py:5:from typing import Optional
+src/lux/data/repositories/schedule_repo.py:1:from __future__ import annotations
+src/lux/data/repositories/schedule_repo.py:3:import sqlite3
+src/lux/data/repositories/schedule_repo.py:4:from typing import Any
+src/lux/data/repositories/schedule_repo.py:6:from lux.data.models.schedule import ScheduledEntryRow, bool_from_int, now_sqlite
+src/lux/data/repositories/tasks_repo.py:1:from __future__ import annotations
+src/lux/data/repositories/tasks_repo.py:3:import sqlite3
+src/lux/data/repositories/tasks_repo.py:4:from typing import Optional
+src/lux/data/repositories/tasks_repo.py:6:from lux.data.models.tasks import (
+src/lux/features/exercise/ui/panel.py:1:from __future__ import annotations
+src/lux/features/exercise/ui/panel.py:3:from PySide6.QtCore import Qt
+src/lux/features/exercise/ui/panel.py:4:from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
+src/lux/features/exercise/ui/panel.py:6:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/exercise/ui/panel.py:7:from lux.ui.qt.widgets.cards import Card
+src/lux/features/exercise/ui/view.py:1:from __future__ import annotations
+src/lux/features/exercise/ui/view.py:3:from PySide6.QtCore import Qt
+src/lux/features/exercise/ui/view.py:4:from PySide6.QtWidgets import (
+src/lux/features/exercise/ui/view.py:17:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/exercise/ui/view.py:18:from lux.ui.qt.widgets.cards import Card
+src/lux/features/goals/ui/panel.py:1:from __future__ import annotations
+src/lux/features/goals/ui/panel.py:3:from PySide6.QtCore import Qt
+src/lux/features/goals/ui/panel.py:4:from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
+src/lux/features/goals/ui/panel.py:6:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/goals/ui/panel.py:7:from lux.ui.qt.widgets.cards import Card
+src/lux/features/goals/ui/view.py:1:from __future__ import annotations
+src/lux/features/goals/ui/view.py:3:from PySide6.QtCore import Qt
+src/lux/features/goals/ui/view.py:4:from PySide6.QtWidgets import (
+src/lux/features/goals/ui/view.py:17:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/goals/ui/view.py:18:from lux.ui.qt.widgets.cards import Card
+src/lux/features/journal/ui/panel.py:1:from __future__ import annotations
+src/lux/features/journal/ui/panel.py:3:from PySide6.QtCore import Qt
+src/lux/features/journal/ui/panel.py:4:from PySide6.QtWidgets import (
+src/lux/features/journal/ui/panel.py:15:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/journal/ui/panel.py:16:from lux.ui.qt.widgets.cards import Card
+src/lux/features/journal/ui/view.py:1:from __future__ import annotations
+src/lux/features/journal/ui/view.py:3:from PySide6.QtCore import Qt, QDate
+src/lux/features/journal/ui/view.py:4:from PySide6.QtWidgets import (
+src/lux/features/journal/ui/view.py:19:from lux.ui.qt.widgets.cards import Card
+src/lux/features/journal/ui/view.py:20:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/meals/ui/panel.py:1:from __future__ import annotations
+src/lux/features/meals/ui/panel.py:3:from PySide6.QtWidgets import (
+src/lux/features/meals/ui/panel.py:13:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/meals/ui/panel.py:14:from lux.ui.qt.widgets.cards import Card
+src/lux/features/meals/ui/view.py:1:from __future__ import annotations
+src/lux/features/meals/ui/view.py:3:from PySide6.QtCore import Qt, QDate
+src/lux/features/meals/ui/view.py:4:from PySide6.QtWidgets import (
+src/lux/features/meals/ui/view.py:20:from lux.ui.qt.widgets.cards import Card
+src/lux/features/meals/ui/view.py:21:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/scheduler/ui/controller.py:1:from __future__ import annotations
+src/lux/features/scheduler/ui/controller.py:3:from dataclasses import dataclass
+src/lux/features/scheduler/ui/controller.py:4:from datetime import date, datetime, timedelta
+src/lux/features/scheduler/ui/controller.py:5:from uuid import uuid4
+src/lux/features/scheduler/ui/controller.py:7:from PySide6.QtCore import QDate, QTime
+src/lux/features/scheduler/ui/controller.py:9:from lux.core.scheduler.service import SchedulerService
+src/lux/features/scheduler/ui/day_view.py:1:from __future__ import annotations
+src/lux/features/scheduler/ui/day_view.py:3:from PySide6.QtCore import Qt, QDate, QTime
+src/lux/features/scheduler/ui/day_view.py:4:from PySide6.QtWidgets import (
+src/lux/features/scheduler/ui/day_view.py:18:from lux.core.scheduler.service import SchedulerService
+src/lux/features/scheduler/ui/day_view.py:19:from lux.features.scheduler.ui.controller import SchedulerController, SchedulerEntryVM
+src/lux/features/scheduler/ui/day_view.py:20:from lux.features.scheduler.ui.state import SchedulerState
+src/lux/features/scheduler/ui/day_view.py:21:from lux.ui.qt.widgets.cards import Card
+src/lux/features/scheduler/ui/day_view.py:22:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/scheduler/ui/factories.py:1:from __future__ import annotations
+src/lux/features/scheduler/ui/factories.py:3:from typing import Callable
+src/lux/features/scheduler/ui/factories.py:5:from PySide6.QtWidgets import QWidget
+src/lux/features/scheduler/ui/factories.py:7:from lux.app.services import SystemServices
+src/lux/features/scheduler/ui/factories.py:8:from lux.features.scheduler.ui.day_view import SchedulerDayView
+src/lux/features/scheduler/ui/factories.py:9:from lux.features.scheduler.ui.panel import SchedulerLeftPanel
+src/lux/features/scheduler/ui/factories.py:10:from lux.features.scheduler.ui.state import SchedulerState
+src/lux/features/scheduler/ui/panel.py:1:from __future__ import annotations
+src/lux/features/scheduler/ui/panel.py:3:from PySide6.QtCore import QDate, QTime
+src/lux/features/scheduler/ui/panel.py:4:from PySide6.QtWidgets import (
+src/lux/features/scheduler/ui/panel.py:17:from lux.core.scheduler.service import SchedulerService
+src/lux/features/scheduler/ui/panel.py:18:from lux.features.scheduler.ui.controller import SchedulerController
+src/lux/features/scheduler/ui/panel.py:19:from lux.features.scheduler.ui.state import SchedulerState
+src/lux/features/scheduler/ui/panel.py:20:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/scheduler/ui/panel.py:21:from lux.ui.qt.widgets.cards import Card
+src/lux/features/scheduler/ui/state.py:1:from __future__ import annotations
+src/lux/features/scheduler/ui/state.py:3:from PySide6.QtCore import QObject, QDate, Signal
+src/lux/features/todo/domain.py:1:from __future__ import annotations
+src/lux/features/todo/domain.py:3:from dataclasses import dataclass
+src/lux/features/todo/domain.py:4:from typing import Optional
+src/lux/features/todo/repo.py:1:from __future__ import annotations
+src/lux/features/todo/repo.py:3:from typing import Optional
+src/lux/features/todo/repo.py:5:from lux.data.models.tasks import TaskDefinitionRow, TaskOccurrenceJoinedRow, TaskOccurrenceRow
+src/lux/features/todo/repo.py:6:from lux.data.repositories.tasks_repo import TasksRepository
+src/lux/features/todo/service.py:1:from __future__ import annotations
+src/lux/features/todo/service.py:3:from dataclasses import dataclass
+src/lux/features/todo/service.py:4:from datetime import date, timedelta
+src/lux/features/todo/service.py:6:from lux.features.todo.domain import TaskOccurrence
+src/lux/features/todo/service.py:7:from lux.features.todo.repo import TodoRepo
+src/lux/features/todo/ui/controller.py:1:from __future__ import annotations
+src/lux/features/todo/ui/controller.py:3:from PySide6.QtCore import QObject, Signal
+src/lux/features/todo/ui/controller.py:5:from lux.app.services import SystemServices
+src/lux/features/todo/ui/controller.py:6:from lux.features.todo.domain import TaskOccurrence
+src/lux/features/todo/ui/controller.py:7:from lux.ui.qt.dragdrop import LuxDragPayload
+src/lux/features/todo/ui/panel.py:1:from __future__ import annotations
+src/lux/features/todo/ui/panel.py:3:from PySide6.QtCore import Qt
+src/lux/features/todo/ui/panel.py:4:from PySide6.QtWidgets import (
+src/lux/features/todo/ui/panel.py:16:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/todo/ui/panel.py:17:from lux.ui.qt.widgets.cards import Card
+src/lux/features/todo/ui/panel.py:18:from lux.features.todo.ui.controller import TodoController
+src/lux/features/todo/ui/view.py:1:from __future__ import annotations
+src/lux/features/todo/ui/view.py:3:from datetime import date, timedelta
+src/lux/features/todo/ui/view.py:5:from PySide6.QtCore import Qt
+src/lux/features/todo/ui/view.py:6:from PySide6.QtWidgets import (
+src/lux/features/todo/ui/view.py:16:from lux.app.services import SystemServices
+src/lux/features/todo/ui/view.py:17:from lux.ui.qt.dragdrop import decode_mime
+src/lux/features/todo/ui/view.py:18:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/features/todo/ui/view.py:19:from lux.ui.qt.widgets.cards import Card
+src/lux/features/todo/ui/view.py:20:from lux.features.todo.ui.controller import TodoController
+src/lux/ui/qt/app_shell.py:1:from __future__ import annotations
+src/lux/ui/qt/app_shell.py:3:from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve
+src/lux/ui/qt/app_shell.py:4:from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QFrame, QSizePolicy, QSplitter
+src/lux/ui/qt/app_shell.py:6:from lux.ui.qt.widgets.cards import Card
+src/lux/ui/qt/dragdrop.py:1:from __future__ import annotations
+src/lux/ui/qt/dragdrop.py:3:from dataclasses import dataclass
+src/lux/ui/qt/dragdrop.py:4:from enum import Enum
+src/lux/ui/qt/dragdrop.py:5:import json
+src/lux/ui/qt/dragdrop.py:6:import uuid
+src/lux/ui/qt/dragdrop.py:7:from typing import Any, Optional
+src/lux/ui/qt/dragdrop.py:9:from PySide6.QtCore import QEvent, QObject, QMimeData, Qt
+src/lux/ui/qt/dragdrop.py:10:from PySide6.QtGui import QDrag, QKeyEvent
+src/lux/ui/qt/dragdrop.py:11:from PySide6.QtWidgets import QApplication, QWidget
+src/lux/ui/qt/main_window.py:1:from __future__ import annotations
+src/lux/ui/qt/main_window.py:3:from PySide6.QtCore import Qt, QTimer
+src/lux/ui/qt/main_window.py:4:from PySide6.QtWidgets import (
+src/lux/ui/qt/main_window.py:14:from lux.app.navigation import AppModuleSpec
+src/lux/ui/qt/main_window.py:15:from lux.app.services import SystemServices
+src/lux/ui/qt/main_window.py:16:from lux.core.settings.store import SettingsStore
+src/lux/ui/qt/main_window.py:17:from lux.core.settings.schema import THEMES_AVAILABLE
+src/lux/ui/qt/main_window.py:18:from lux.ui.qt.app_shell import AppShell
+src/lux/ui/qt/main_window.py:19:from lux.ui.qt.settings_view import SettingsLeftPanel, SettingsRightView, SettingsCallbacks
+src/lux/ui/qt/main_window.py:20:import lux.ui.qt.theme as theme_mod
+src/lux/ui/qt/main_window.py:21:from lux.ui.qt.widgets.buttons import LuxButton
+src/lux/ui/qt/settings_view.py:1:from __future__ import annotations
+src/lux/ui/qt/settings_view.py:3:from dataclasses import dataclass
+src/lux/ui/qt/settings_view.py:4:from typing import Callable
+src/lux/ui/qt/settings_view.py:6:from PySide6.QtCore import QTimer
+src/lux/ui/qt/settings_view.py:7:from PySide6.QtWidgets import (
+src/lux/ui/qt/settings_view.py:16:from lux.core.settings.schema import THEMES_AVAILABLE
+src/lux/ui/qt/settings_view.py:17:from lux.core.settings.store import SettingsStore
+src/lux/ui/qt/settings_view.py:18:from lux.ui.qt.theme import list_available_font_schemes
+src/lux/ui/qt/theme.py:1:from __future__ import annotations
+src/lux/ui/qt/theme.py:3:import json
+src/lux/ui/qt/theme.py:4:import logging
+src/lux/ui/qt/theme.py:5:import re
+src/lux/ui/qt/theme.py:6:import sys
+src/lux/ui/qt/theme.py:7:from pathlib import Path
+src/lux/ui/qt/theme.py:9:from PySide6.QtGui import QFontDatabase
+src/lux/ui/qt/theme.py:10:from PySide6.QtWidgets import QApplication
+src/lux/ui/qt/theme.py:12:from lux.app.config import repo_root_from_file
+src/lux/ui/qt/theme.py:13:from lux.core.settings.schema import FONT_SCHEME_DEFAULT, THEME_DEFAULT, THEMES_AVAILABLE
+src/lux/ui/qt/widgets/buttons.py:1:from __future__ import annotations
+src/lux/ui/qt/widgets/buttons.py:3:from PySide6.QtWidgets import QPushButton
+src/lux/ui/qt/widgets/cards.py:1:from __future__ import annotations
+src/lux/ui/qt/widgets/cards.py:3:from PySide6.QtWidgets import QFrame

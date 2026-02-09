@@ -1,0 +1,454 @@
+﻿==============================
+AI CONTEXT SNAPSHOT
+==============================
+Timestamp : 2026-02-08 18:42:18 -05:00
+Repo root : C:/Users/Crux/Programming/lux_planner
+Branch    : main
+HEAD hash : 4fb6c7a9a7d64403473fb1556698157792b02ec5
+Repo state: DIRTY (uncommitted changes present)
+
+==============================
+REPO MAP (filtered)
+==============================
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/ARCHITECTURE_NOTES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/CHANGE_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/IMPLEMENTATION_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/LUX_SYSTEM_CONTRACTS.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/PROJECT_ARCHITECTURE.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/PROJECT_ROADMAP.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260206 into 07/RISK_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_AGENT_SCOPES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_ARCHITECTURE_NOTES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_CHANGE_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_IMPLEMENTATION_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_LUX_SYSTEM_CONTRACTS.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_PROJECT_ROADMAP.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_PROJECT_RULES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/20260208/UPDATED_RISK_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/LUX_SYSTEM_CONTRACTS.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_AGENT_SCOPES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_ARCHITECTURE_NOTES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_CHANGE_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_IMPLEMENTATION_LOG.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_PROJECT_ROADMAP.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_PROJECT_RULES.md
+C:/Users/Crux/Programming/lux_planner/AI BRAIN/UPDATED_RISK_LOG.md
+C:/Users/Crux/Programming/lux_planner/assets/font_schemes/bundled_core.json
+C:/Users/Crux/Programming/lux_planner/assets/font_schemes/compact.json
+C:/Users/Crux/Programming/lux_planner/assets/font_schemes/editorial.json
+C:/Users/Crux/Programming/lux_planner/assets/font_schemes/friendly.json
+C:/Users/Crux/Programming/lux_planner/assets/font_schemes/modern_clean.json
+C:/Users/Crux/Programming/lux_planner/assets/themes/cloudy.qss
+C:/Users/Crux/Programming/lux_planner/assets/themes/graphite.qss
+C:/Users/Crux/Programming/lux_planner/assets/themes/obsidian.qss
+C:/Users/Crux/Programming/lux_planner/assets/themes/sunkissed.qss
+C:/Users/Crux/Programming/lux_planner/IMPORT_INDEX.txt
+C:/Users/Crux/Programming/lux_planner/pyproject.toml
+C:/Users/Crux/Programming/lux_planner/REPO_MAP.txt
+C:/Users/Crux/Programming/lux_planner/src/lux/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/__main__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/bootstrap.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/config.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/lifecycle.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/navigation.py
+C:/Users/Crux/Programming/lux_planner/src/lux/app/services.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/errors.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/logging.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/provider_registry.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/service.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/settings/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/settings/schema.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/settings/store.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/time.py
+C:/Users/Crux/Programming/lux_planner/src/lux/core/types.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/db.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/0001_init.sql
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/0002_journal.sql
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/0003_tasks.sql
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/0004_schedule.sql
+C:/Users/Crux/Programming/lux_planner/src/lux/data/migrations/0005_task_hierarchy.sql
+C:/Users/Crux/Programming/lux_planner/src/lux/data/models/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/models/journal.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/models/schedule.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/models/tasks.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/journal_repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/schedule_repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/tasks_repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/domain.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/service.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/domain.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/service.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/domain.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/domain.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/service.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/day_view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/factories.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/month_view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/state.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/week_view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/domain.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/repo.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/service.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/controller.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/panel.py
+C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/app_shell.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/dragdrop.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/main_window.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/settings_view.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/styles/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/styles/constants.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/styles/qss_build.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/styles/tokens.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/theme.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/__init__.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/buttons.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/cards.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/dialogs.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/splitters.py
+C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/typography.py
+C:/Users/Crux/Programming/lux_planner/tests/integration/test_repos_sqlite.py
+C:/Users/Crux/Programming/lux_planner/tests/unit/__init__.py
+C:/Users/Crux/Programming/lux_planner/tests/unit/test_journal_service.py
+C:/Users/Crux/Programming/lux_planner/tests/unit/test_scheduler_domain.py
+C:/Users/Crux/Programming/lux_planner/tests/unit/test_settings.py
+C:/Users/Crux/Programming/lux_planner/token.txt
+C:/Users/Crux/Programming/lux_planner/tools/ dump_config.json
+C:/Users/Crux/Programming/lux_planner/tools/AI_CONTEXT_SNAPSHOT.txt
+
+==============================
+IMPORT INDEX (all matched .py)
+==============================
+### C:/Users/Crux/Programming/lux_planner/src/lux/__main__.py
+from lux.app.bootstrap import run_app
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/app/bootstrap.py
+from __future__ import annotations
+import logging
+import sys
+from PySide6.QtWidgets import QApplication
+from lux.app.navigation import build_default_registry
+from lux.app.services import SystemServices
+from lux.core.scheduler.provider_registry import SchedulerProviderRegistry
+from lux.core.scheduler.service import SchedulerService
+from lux.core.settings.store import SettingsStore
+from lux.data.db import ensure_db_ready
+from lux.data.repositories.schedule_repo import ScheduledEntryRepo
+from lux.data.repositories.tasks_repo import TasksRepository
+from lux.features.todo.repo import TodoRepo
+from lux.features.todo.service import TodoService
+from lux.ui.qt.main_window import MainWindow
+import lux.ui.qt.theme as theme_mod
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/app/config.py
+from __future__ import annotations
+import os
+from pathlib import Path
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/app/navigation.py
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Callable
+from PySide6.QtWidgets import QWidget
+from lux.app.services import SystemServices
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/app/services.py
+from __future__ import annotations
+from dataclasses import dataclass
+from lux.core.scheduler.service import SchedulerService
+from lux.features.todo.service import TodoService
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/__init__.py
+from .service import SchedulerService
+from .provider_registry import SchedulerProviderRegistry, SchedulerProvider
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/provider_registry.py
+from __future__ import annotations
+from typing import Protocol
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/core/scheduler/service.py
+from __future__ import annotations
+from datetime import date, datetime
+from typing import Any
+from lux.core.scheduler.provider_registry import SchedulerProviderRegistry
+from lux.data.models.schedule import ScheduledEntryRow
+from lux.data.repositories.schedule_repo import ScheduledEntryRepo
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/core/settings/store.py
+from __future__ import annotations
+import json
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from lux.app.config import app_data_dir
+from lux.core.settings.schema import THEME_DEFAULT, THEMES_AVAILABLE, FONT_SCHEME_DEFAULT
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/data/db.py
+from __future__ import annotations
+import sqlite3
+from pathlib import Path
+from typing import Iterable
+from lux.app.config import app_data_dir
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/data/models/schedule.py
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Optional
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/data/models/tasks.py
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Optional
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/schedule_repo.py
+from __future__ import annotations
+import sqlite3
+from typing import Any
+from lux.data.models.schedule import ScheduledEntryRow, bool_from_int, now_sqlite
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/data/repositories/tasks_repo.py
+from __future__ import annotations
+import sqlite3
+from typing import Optional
+from lux.data.models.tasks import (
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/panel.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/exercise/ui/view.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/panel.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QLineEdit
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/goals/ui/view.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/panel.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/journal/ui/view.py
+from __future__ import annotations
+from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.cards import Card
+from lux.ui.qt.widgets.buttons import LuxButton
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/panel.py
+from __future__ import annotations
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/meals/ui/view.py
+from __future__ import annotations
+from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.cards import Card
+from lux.ui.qt.widgets.buttons import LuxButton
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/controller.py
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import date, datetime, timedelta
+from uuid import uuid4
+from PySide6.QtCore import QDate, QTime
+from lux.core.scheduler.service import SchedulerService
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/day_view.py
+from __future__ import annotations
+from PySide6.QtCore import Qt, QDate, QTime
+from PySide6.QtWidgets import (
+from lux.core.scheduler.service import SchedulerService
+from lux.features.scheduler.ui.controller import SchedulerController, SchedulerEntryVM
+from lux.features.scheduler.ui.state import SchedulerState
+from lux.ui.qt.widgets.cards import Card
+from lux.ui.qt.widgets.buttons import LuxButton
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/factories.py
+from __future__ import annotations
+from typing import Callable
+from PySide6.QtWidgets import QWidget
+from lux.app.services import SystemServices
+from lux.features.scheduler.ui.day_view import SchedulerDayView
+from lux.features.scheduler.ui.panel import SchedulerLeftPanel
+from lux.features.scheduler.ui.state import SchedulerState
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/panel.py
+from __future__ import annotations
+from PySide6.QtCore import QDate, QTime
+from PySide6.QtWidgets import (
+from lux.core.scheduler.service import SchedulerService
+from lux.features.scheduler.ui.controller import SchedulerController
+from lux.features.scheduler.ui.state import SchedulerState
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/scheduler/ui/state.py
+from __future__ import annotations
+from PySide6.QtCore import QObject, QDate, Signal
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/domain.py
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Optional
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/repo.py
+from __future__ import annotations
+from typing import Optional
+from lux.data.models.tasks import TaskDefinitionRow, TaskOccurrenceJoinedRow, TaskOccurrenceRow
+from lux.data.repositories.tasks_repo import TasksRepository
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/service.py
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import date, timedelta
+from lux.features.todo.domain import TaskOccurrence
+from lux.features.todo.repo import TodoRepo
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/controller.py
+from __future__ import annotations
+from PySide6.QtCore import QObject, Signal
+from lux.app.services import SystemServices
+from lux.features.todo.domain import TaskOccurrence
+from lux.ui.qt.dragdrop import LuxDragPayload
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/panel.py
+from __future__ import annotations
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+from lux.features.todo.ui.controller import TodoController
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/features/todo/ui/view.py
+from __future__ import annotations
+from datetime import date, timedelta
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+from lux.app.services import SystemServices
+from lux.ui.qt.dragdrop import decode_mime
+from lux.ui.qt.widgets.buttons import LuxButton
+from lux.ui.qt.widgets.cards import Card
+from lux.features.todo.ui.controller import TodoController
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/app_shell.py
+from __future__ import annotations
+from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QFrame, QSizePolicy, QSplitter
+from lux.ui.qt.widgets.cards import Card
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/dragdrop.py
+from __future__ import annotations
+from dataclasses import dataclass
+from enum import Enum
+import json
+import uuid
+from typing import Any, Optional
+from PySide6.QtCore import QEvent, QObject, QMimeData, Qt
+from PySide6.QtGui import QDrag, QKeyEvent
+from PySide6.QtWidgets import QApplication, QWidget
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/main_window.py
+from __future__ import annotations
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import (
+from lux.app.navigation import AppModuleSpec
+from lux.app.services import SystemServices
+from lux.core.settings.store import SettingsStore
+from lux.core.settings.schema import THEMES_AVAILABLE
+from lux.ui.qt.app_shell import AppShell
+from lux.ui.qt.settings_view import SettingsLeftPanel, SettingsRightView, SettingsCallbacks
+import lux.ui.qt.theme as theme_mod
+from lux.ui.qt.widgets.buttons import LuxButton
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/settings_view.py
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Callable
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import (
+from lux.core.settings.schema import THEMES_AVAILABLE
+from lux.core.settings.store import SettingsStore
+from lux.ui.qt.theme import list_available_font_schemes
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/theme.py
+from __future__ import annotations
+import json
+import logging
+import re
+import sys
+from pathlib import Path
+from PySide6.QtGui import QFontDatabase
+from PySide6.QtWidgets import QApplication
+from lux.app.config import repo_root_from_file
+from lux.core.settings.schema import FONT_SCHEME_DEFAULT, THEME_DEFAULT, THEMES_AVAILABLE
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/buttons.py
+from __future__ import annotations
+from PySide6.QtWidgets import QPushButton
+
+### C:/Users/Crux/Programming/lux_planner/src/lux/ui/qt/widgets/cards.py
+from __future__ import annotations
+from PySide6.QtWidgets import QFrame
+
