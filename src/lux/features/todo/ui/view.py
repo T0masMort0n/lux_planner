@@ -2,22 +2,17 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QHBoxLayout,
-    QCheckBox,
-    QFrame,
-    QScrollArea,
-)
+from PySide6.QtCore import Qt, QPoint
+from PySide6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QHBoxLayout, QCheckBox, QFrame, QScrollArea, QApplication)
 
 from lux.app.services import SystemServices
-from lux.ui.qt.dragdrop import decode_mime
+from lux.ui.qt.dragdrop import decode_mime, start_system_drag
 from lux.ui.qt.widgets.buttons import LuxButton
 from lux.ui.qt.widgets.cards import Card
 from lux.features.todo.ui.controller import TodoController
+from lux.features.todo.ui.dnd_payloads import make_task_occurrence_payload
+from lux.features.todo.domain import TaskOccurrence
+
 
 
 class _DateDropCard(Card):
@@ -46,6 +41,57 @@ class _DateDropCard(Card):
 
         self._ctl.handle_drop(payload, self._target_date)
         event.acceptProposedAction()
+
+class _OccurrenceRow(QWidget):
+    """
+    Draggable row representing a task occurrence.
+
+    This row captures mouse motion to initiate a system drag using the To‑Do
+    payload helper. It reuses the standard checkbox and label for display.
+    """
+
+    def __init__(self, occ: TaskOccurrence, controller: TodoController, parent=None) -> None:
+        super().__init__(parent)
+        self._occ = occ
+        self._ctl = controller
+        self._drag_start_pos: QPoint | None = None
+
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(10)
+
+        chk = QCheckBox()
+        chk.setChecked(occ.completed)
+        chk.stateChanged.connect(
+            lambda state, oid=occ.id: self._ctl.set_completed(oid, state == Qt.Checked)
+        )
+        layout.addWidget(chk, 0, Qt.AlignTop)
+
+        lbl = QLabel(occ.title)
+        lbl.setWordWrap(True)
+        layout.addWidget(lbl, 1)
+
+    def mousePressEvent(self, event) -> None:  # noqa: N802 (Qt override)
+        if event.button() == Qt.LeftButton:
+            self._drag_start_pos = event.pos()
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event) -> None:  # noqa: N802 (Qt override)
+        if self._drag_start_pos is not None:
+            # Trigger a drag if the mouse has moved enough
+            if (
+                (event.pos() - self._drag_start_pos).manhattanLength()
+                >= QApplication.startDragDistance()
+            ):
+                payload = make_task_occurrence_payload(self._occ.id)
+                start_system_drag(self, payload)
+                self._drag_start_pos = None
+                return
+        super().mouseMoveEvent(event)
+
+    def mouseReleaseEvent(self, event) -> None:  # noqa: N802 (Qt override)
+        self._drag_start_pos = None
+        super().mouseReleaseEvent(event)
 
 
 class TodoRightView(QWidget):
@@ -126,23 +172,10 @@ class TodoRightView(QWidget):
             t_lay.addWidget(e)
         else:
             for occ in today:
-                row = QWidget()
-                r = QHBoxLayout(row)
-                r.setContentsMargins(0, 0, 0, 0)
-                r.setSpacing(10)
-
-                chk = QCheckBox()
-                chk.setChecked(occ.completed)
-                chk.stateChanged.connect(
-                    lambda state, oid=occ.id: self._ctl.set_completed(oid, state == Qt.Checked)
-                )
-                r.addWidget(chk, 0, Qt.AlignTop)
-
-                lbl = QLabel(occ.title)
-                lbl.setWordWrap(True)
-                r.addWidget(lbl, 1)
-
+                # Use a draggable occurrence row that relies on the system drag API
+                row = _OccurrenceRow(occ, self._ctl)
                 t_lay.addWidget(row)
+
 
         self._lay.addWidget(today_card)
 
