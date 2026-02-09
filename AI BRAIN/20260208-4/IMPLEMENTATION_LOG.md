@@ -71,9 +71,3 @@ To‑Do now:
 - Introduced feature-local payload helpers
 - Eliminated module-level cancellation state
 - Added `DragResult` enum for deterministic outcomes
-
-## 2026-02-08 — Documentation Consolidation (No Code Changes)
-- Refactored AI_BRAIN documentation for redundancy removal and SSOT clarity.
-- Moved contract details into LUX_SYSTEM_CONTRACTS; left PROJECT_RULES as operational index + role summary.
-- Standardized Architecture Notes references to the master contracts for dump generation.
-- Signed: Documentation Auditor (GPT-5.2)

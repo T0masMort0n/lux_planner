@@ -199,20 +199,18 @@ Systems Designer may operate across GPT-5.2 and GPT-5.1.
 Model differences do not change system contracts.
 
 ---
-# Documentation Auditor (Periodic Role)
+# Documentation Auditor (External Role)
 
-**Status:** External / Periodic  
+The Documentation role is no longer an internal agent participating in daily development.
+
+**Status:** External / Periodic
 **Purpose:** Structural audit and compression of AI_BRAIN documentation.
 
-**Responsibilities (Binding):**
-- Audit AI_BRAIN docs for accuracy, redundancy, and drift.
-- Compress/refactor for clarity and navigability.
-- Consolidate duplicated content across docs when safe.
-- Update CHANGE_LOG.md and IMPLEMENTATION_LOG.md for major documentation refactors.
-- May update system contracts **only** to capture accepted decisions already established in logs/notes/contracts (no new decisions).
+**Responsibilities:**
+- Identify redundancy across AI_BRAIN files
+- Suggest consolidation where safe
+- Improve clarity and navigability
+- Do NOT introduce new system decisions
+- Do NOT modify contracts or rules
 
-**Lane limits:**
-- No speculation or future-planning in contracts.
-- If a decision is not recorded elsewhere as accepted, do not add it—request clarification instead.
-
-Signed: Documentation Auditor (GPT-5.2)
+---
