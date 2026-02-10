@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 """
-To‑Do drag‑and‑drop payload helpers.
+Tasks drag-and-drop payload helpers.
 
-This module lives in the To‑Do feature layer and provides thin wrappers around
-the system drag‑and‑drop payload constructor. By keeping these helpers in
-feature code, we avoid polluting the system drag module with feature‑specific
-knowledge, while still offering convenient constructors for To‑Do UI code.
+This module lives in the Tasks feature layer and provides thin wrappers around
+the system drag-and-drop payload constructor. By keeping these helpers in
+feature code, we avoid polluting the system drag module with feature-specific
+knowledge, while still offering convenient constructors for Tasks UI code.
 """
 
 from lux.ui.qt.dragdrop import LuxDragPayload, make_payload

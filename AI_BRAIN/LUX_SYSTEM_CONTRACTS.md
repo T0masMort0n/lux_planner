@@ -1,5 +1,29 @@
 # LUX PLANNER — SYSTEM INTERACTION & SHARING CONTRACTS (MASTER)
 
+
+## Terminology SSOT: Tasks (Binding)
+
+**Canonical term:** The system-wide canonical term is **Task / Tasks**.
+
+**Prohibited in code identifiers:** The string `todo` / `Todo` **MUST NOT** appear in:
+- module/package names
+- class names
+- function names
+- variable names that represent domain entities/services/repos/controllers
+- DnD payload kinds / discriminators
+- system surface identifiers / registry keys
+- public APIs or events
+
+**Allowed exception (UI copy only):** “To Do” may appear only in **user-facing UI text** (labels, titles, copy). It must not be used as a system identifier.
+
+**DnD payload kinds:** When representing task entities in the system-owned drag/drop framework, payload kinds **MUST** be:
+- `task_definition`
+- `task_occurrence`
+
+No `todo_*` payload kinds are permitted.
+
+**Migration rule:** Any legacy `todo_*` identifiers **MUST** be migrated to `task_*`. Temporary compatibility aliases may exist for **one transition commit only**, then must be removed.
+
 **Status:** System-owned contracts (binding)  
 **Last Updated:** 2026-02-08  
 **Owner:** Systems Designer Agent (system)  
@@ -173,7 +197,18 @@ Dump generation is **system infrastructure**. Purpose: prevent stale artifacts a
 
 ---
 
-## 11) Appendix — Task System DnD Integration (To‑Do Phase 1)
+
+## 11) Terminology SSOT: Tasks
+
+The system-wide canonical term is Task(s).
+
+“todo” MUST NOT appear in code identifiers (modules/classes/functions/variables), payload kinds, service names, or system surfaces.
+
+“To Do” is permitted only as user-facing copy/text.
+
+Any legacy todo_* identifiers MUST be migrated to task_* identifiers; temporary aliases are permitted for a single transition commit, then removed.
+
+## 12) Appendix — Task System DnD Integration (To‑Do Phase 1)
 Accepted behavior mapping:
 
 | Payload Kind | Drop Effect |

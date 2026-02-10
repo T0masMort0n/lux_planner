@@ -83,6 +83,9 @@ Features provide content only.
 ## 7) Data Lifecycle
 Nothing is deleted; only archived.
 
+### Timestamp Contract
+All persisted timestamps are **UTC**. Repositories must generate domain timestamps using `now_sqlite()` and bind them as SQL parameters; using SQLite `datetime('now')` (or equivalent) is forbidden in domain write queries to prevent clock drift and inconsistent behavior across layers.
+
 ---
 
 ## 8) Change Protocol
@@ -112,3 +115,9 @@ All AI coding tasks must be anchored to a specific Git commit hash:
 
 ## 11) AI Non‑Guessing Enforcement
 All agents must follow the Global Non‑Guessing Rule defined in AGENT_SCOPES.
+
+## 12) Terminology rule
+
+PRs that add new todo identifiers are rejected.
+
+Rename work must be mechanical and comprehensive (no partial naming drift).

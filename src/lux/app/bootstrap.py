@@ -13,8 +13,8 @@ from lux.core.settings.store import SettingsStore
 from lux.data.db import ensure_db_ready
 from lux.data.repositories.schedule_repo import ScheduledEntryRepo
 from lux.data.repositories.tasks_repo import TasksRepository
-from lux.features.todo.repo import TodoRepo
-from lux.features.todo.service import TodoService
+from lux.features.tasks.repo import TasksRepo
+from lux.features.tasks.service import TasksService
 from lux.ui.qt.main_window import MainWindow
 import lux.ui.qt.theme as theme_mod
 
@@ -36,14 +36,14 @@ def run_app() -> None:
     scheduler_registry = SchedulerProviderRegistry()
     scheduler_service = SchedulerService(repo=scheduler_repo, registry=scheduler_registry)
 
-    # To-Do feature spine (repo/service constructed here; no feature-owned DB init)
+    # Tasks feature spine (repo/service constructed here; no feature-owned DB init)
     tasks_repo = TasksRepository(conn)
-    todo_repo = TodoRepo(tasks_repo)
-    todo_service = TodoService(repo=todo_repo)
+    tasks_repo_adapter = TasksRepo(tasks_repo)
+    tasks_service = TasksService(repo=tasks_repo_adapter)
 
     services = SystemServices(
         scheduler_service=scheduler_service,
-        todo_service=todo_service,
+        tasks_service=tasks_service,
     )
 
     # Apply theme once we have settings + app (SSOT path)

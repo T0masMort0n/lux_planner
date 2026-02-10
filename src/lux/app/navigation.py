@@ -38,9 +38,9 @@ def build_default_registry() -> list[AppModuleSpec]:
     from lux.features.goals.ui.panel import GoalsLeftPanel
     from lux.features.goals.ui.view import GoalsRightView
 
-    # To Do (Inbox / unassigned tasks)
-    from lux.features.todo.ui.panel import TodoLeftPanel
-    from lux.features.todo.ui.view import TodoRightView
+    # Tasks (Inbox / unassigned tasks)
+    from lux.features.tasks.ui.panel import TasksLeftPanel
+    from lux.features.tasks.ui.view import TasksRightView
 
     scheduler_left_factory, scheduler_right_factory = make_scheduler_factories()
 
@@ -76,9 +76,9 @@ def build_default_registry() -> list[AppModuleSpec]:
             make_right_view=lambda services: GoalsRightView(),
         ),
         AppModuleSpec(
-            key="todo",
-            title="Lux To Do",
-            make_left_panel=lambda services: TodoLeftPanel(services=services),
-            make_right_view=lambda services: TodoRightView(services=services),
+            key="tasks",
+            title="Lux Tasks",
+            make_left_panel=lambda services: TasksLeftPanel(services=services),
+            make_right_view=lambda services: TasksRightView(services=services),
         ),
     ]

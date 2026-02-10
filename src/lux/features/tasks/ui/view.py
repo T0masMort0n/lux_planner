@@ -9,9 +9,9 @@ from lux.app.services import SystemServices
 from lux.ui.qt.dragdrop import decode_mime, start_system_drag
 from lux.ui.qt.widgets.buttons import LuxButton
 from lux.ui.qt.widgets.cards import Card
-from lux.features.todo.ui.controller import TodoController
-from lux.features.todo.ui.dnd_payloads import make_task_occurrence_payload
-from lux.features.todo.domain import TaskOccurrence
+from lux.features.tasks.ui.controller import TasksController
+from lux.features.tasks.ui.dnd_payloads import make_task_occurrence_payload
+from lux.features.tasks.domain import TaskOccurrence
 
 
 
@@ -20,7 +20,7 @@ class _DateDropCard(Card):
     System DnD target that resolves to a specific date string.
     """
 
-    def __init__(self, target_date: str, controller: TodoController, parent=None) -> None:
+    def __init__(self, target_date: str, controller: TasksController, parent=None) -> None:
         super().__init__(parent)
         self._target_date = target_date
         self._ctl = controller
@@ -50,7 +50,7 @@ class _OccurrenceRow(QWidget):
     payload helper. It reuses the standard checkbox and label for display.
     """
 
-    def __init__(self, occ: TaskOccurrence, controller: TodoController, parent=None) -> None:
+    def __init__(self, occ: TaskOccurrence, controller: TasksController, parent=None) -> None:
         super().__init__(parent)
         self._occ = occ
         self._ctl = controller
@@ -94,7 +94,7 @@ class _OccurrenceRow(QWidget):
         super().mouseReleaseEvent(event)
 
 
-class TodoRightView(QWidget):
+class TasksRightView(QWidget):
     """
     Dashboard-style To Do view.
 
@@ -105,7 +105,7 @@ class TodoRightView(QWidget):
     def __init__(self, services: SystemServices, parent=None) -> None:
         super().__init__(parent)
 
-        self._ctl = TodoController(services, self)
+        self._ctl = TasksController(services, self)
         self._ctl.changed.connect(self._refresh)
 
         root = QVBoxLayout(self)

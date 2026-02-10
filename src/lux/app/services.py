@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from lux.core.scheduler.service import SchedulerService
-from lux.features.todo.service import TodoService
+from lux.features.tasks.service import TasksService
 
 
 @dataclass(frozen=True)
@@ -17,4 +17,4 @@ class SystemServices:
     - Features receive only what they need via injection.
     """
     scheduler_service: SchedulerService
-    todo_service: TodoService
+    tasks_service: TasksService

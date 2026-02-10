@@ -93,6 +93,9 @@ Known interruption risks addressed:
 
 ---
 
+
+## 7. Timestamp Contract (Docs)
+- Added a "Timestamp Contract" rule to AI_BRAIN (`PROJECT_RULES.md`): all persisted timestamps are UTC; repositories must use `now_sqlite()`; SQLite `datetime('now')` is forbidden in domain writes.
 ## Status
 ✔ System contract compliant  
 ✔ Lifecycle ownership corrected  
@@ -103,3 +106,30 @@ Known interruption risks addressed:
 - Established split workflow:
   - GPT-5.2 for design & decision-making
   - GPT-5.1 for repo-level code verification
+
+## 2026-02-08 — Documentation Consolidation (AI_BRAIN)
+- Compressed PROJECT_RULES to remove duplicated contract prose; PROJECT_RULES now indexes master contracts instead of redefining them.
+- Updated AGENT_SCOPES to reflect the Documentation Auditor’s responsibilities and lane limits.
+- Expanded LUX_SYSTEM_CONTRACTS into a single master reference for interaction, dump, and theme SSOT contracts (capturing already-accepted decisions only).
+- Normalized PROJECT_ROADMAP phase status wording (Phase 1 marked complete; Phase 2 marked current) to remove internal contradictions.
+- Signed: Documentation Auditor (GPT-5.2)
+
+---
+
+## 2026-02-09 — Tasks naming cleanup + timestamp contract enforcement (Coder)
+
+### Changed
+- Renamed feature identifiers and wiring from **todo → tasks** to eliminate ambiguity (UI wording unaffected).
+  - `lux.features.todo` → `lux.features.tasks`
+  - `Todo*` identifiers → `Tasks*` equivalents
+  - `SystemServices.todo_service` → `SystemServices.tasks_service`
+  - Navigation module key updated to `"tasks"`.
+
+### Fixed
+- Standardized persisted timestamp writes to use `now_sqlite()` (UTC) via bound parameters (no SQLite `datetime('now')` in domain writes).
+- Added migration **0006_task_occurrence_archived_at.sql** to add `archived_at` to `task_occurrences`, aligning schema with repository archive behavior.
+
+### Docs
+- Added a single-source **Timestamp Contract** section to AI_BRAIN (UTC-only timestamps; repositories must use `now_sqlite()`; forbid `datetime('now')` in domain writes).
+
+**Sign-off:** Coder

@@ -6,7 +6,7 @@ from lux.data.models.tasks import TaskDefinitionRow, TaskOccurrenceJoinedRow, Ta
 from lux.data.repositories.tasks_repo import TasksRepository
 
 
-class TodoRepo:
+class TasksRepo:
     """
     Feature-level repo adapter.
     """

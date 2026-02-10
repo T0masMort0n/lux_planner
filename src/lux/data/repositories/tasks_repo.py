@@ -291,33 +291,37 @@ class TasksRepository:
         return out
 
     def set_occurrence_completed(self, occurrence_id: int, completed: bool) -> None:
+        ts = now_sqlite()
         if completed:
             self._conn.execute(
                 """
                 UPDATE task_occurrences
-                SET completed_at = datetime('now'), updated_at = datetime('now')
+                SET completed_at = ?, updated_at = ?
                 WHERE id = ?
                 """,
-                (int(occurrence_id),),
+                (ts, ts, int(occurrence_id)),
             )
         else:
             self._conn.execute(
                 """
                 UPDATE task_occurrences
-                SET completed_at = NULL, updated_at = datetime('now')
+                SET completed_at = NULL, updated_at = ?
                 WHERE id = ?
                 """,
-                (int(occurrence_id),),
+                (ts, int(occurrence_id)),
             )
         self._conn.commit()
 
     def archive_occurrence(self, occurrence_id: int) -> None:
+        ts = now_sqlite()
         self._conn.execute(
             """
             UPDATE task_occurrences
-            SET archived = 1, updated_at = datetime('now')
+            SET archived = 1,
+                archived_at = ?,
+                updated_at = ?
             WHERE id = ?
             """,
-            (int(occurrence_id),),
+            (ts, ts, int(occurrence_id)),
         )
         self._conn.commit()

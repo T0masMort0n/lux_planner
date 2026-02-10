@@ -3,16 +3,16 @@ from __future__ import annotations
 from PySide6.QtCore import QObject, Signal
 
 from lux.app.services import SystemServices
-from lux.features.todo.domain import TaskOccurrence
+from lux.features.tasks.domain import TaskOccurrence
 from lux.ui.qt.dragdrop import LuxDragPayload
 
 
-class TodoController(QObject):
+class TasksController(QObject):
     changed = Signal()  # simple "refresh" signal
 
     def __init__(self, services: SystemServices, parent=None) -> None:
         super().__init__(parent)
-        self._svc = services.todo_service
+        self._svc = services.tasks_service
 
     # Queries
     def today(self) -> list[TaskOccurrence]:

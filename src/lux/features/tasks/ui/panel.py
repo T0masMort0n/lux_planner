@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
 
 from lux.ui.qt.widgets.buttons import LuxButton
 from lux.ui.qt.widgets.cards import Card
-from lux.features.todo.ui.controller import TodoController
+from lux.features.tasks.ui.controller import TasksController
 from lux.app.services import SystemServices
 
 class _OccRow(QWidget):
@@ -60,7 +60,7 @@ class _OccRow(QWidget):
         self._on_archive(self._occ_id)
 
 
-class TodoLeftPanel(QWidget):
+class TasksLeftPanel(QWidget):
     """
     Inbox-style To Do left panel.
     Keeps existing controller wiring (today list + add today).
@@ -70,7 +70,7 @@ class TodoLeftPanel(QWidget):
         super().__init__(parent)
 
         # Create the controller with injected services
-        self._ctl = TodoController(services, self)
+        self._ctl = TasksController(services, self)
 
         self._ctl.changed.connect(self._refresh)
 

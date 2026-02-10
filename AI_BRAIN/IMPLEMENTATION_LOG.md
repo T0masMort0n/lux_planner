@@ -77,3 +77,27 @@ To‑Do now:
 - Moved contract details into LUX_SYSTEM_CONTRACTS; left PROJECT_RULES as operational index + role summary.
 - Standardized Architecture Notes references to the master contracts for dump generation.
 - Signed: Documentation Auditor (GPT-5.2)
+
+
+## Patch — Archived Timestamp Schema Alignment
+
+### Context
+Archive flow in `TasksRepository` sets:
+- `archived = 1`
+- `archived_at = now_sqlite()`
+- `updated_at = now_sqlite()`
+
+Schema lacked `archived_at`, creating a contract violation between repo and DB.
+
+### Action Taken
+Created migration `0006_task_occurrence_archived_at.sql`:
+
+```sql
+ALTER TABLE task_occurrences
+ADD COLUMN archived_at TEXT NULL;
+```
+
+### Result
+- Repository code remains unchanged.
+- Archive behavior now schema-safe.
+- Timestamp Contract remains enforced (UTC via `now_sqlite()`).

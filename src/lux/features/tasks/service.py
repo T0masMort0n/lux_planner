@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, timedelta
 
-from lux.features.todo.domain import TaskOccurrence
-from lux.features.todo.repo import TodoRepo
+from lux.features.tasks.domain import TaskOccurrence
+from lux.features.tasks.repo import TasksRepo
 
 
 @dataclass(frozen=True)
@@ -24,7 +24,7 @@ def _range_for_days(days: int) -> DateRange:
     return DateRange(start=start.isoformat(), end=end.isoformat())
 
 
-class TodoService:
+class TasksService:
     """
     Feature service. UI calls here; DB stays behind repos.
 
@@ -32,7 +32,7 @@ class TodoService:
     - DB lifecycle is system-owned. This service must be constructed via bootstrap injection.
     """
 
-    def __init__(self, repo: TodoRepo) -> None:
+    def __init__(self, repo: TasksRepo) -> None:
         self._repo = repo
 
     # -----------------------
